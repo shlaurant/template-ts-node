@@ -2157,6 +2157,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"games@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "games@workspace:."
+  dependencies:
+    "@eslint/js": "npm:^9.17.0"
+    "@types/jest": "npm:^29.5.14"
+    eslint: "npm:^9.17.0"
+    fp-ts: "npm:^2.16.9"
+    globals: "npm:^15.14.0"
+    jest: "npm:^29.7.0"
+    prettier: "npm:3.4.2"
+    ts-jest: "npm:^29.2.5"
+    ts-node: "npm:^10.9.2"
+    typescript: "npm:^5.7.2"
+    typescript-eslint: "npm:^8.18.2"
+  languageName: unknown
+  linkType: soft
+
 "gensync@npm:^1.0.0-beta.2":
   version: 1.0.0-beta.2
   resolution: "gensync@npm:1.0.0-beta.2"
@@ -3654,24 +3672,6 @@ __metadata:
   checksum: 10c0/bbe5edb944b0ad63387a1d5b1911ae93e05ce8d0f60de1035b218cdcceedfe39dbd2c697853355b70f1a090f8f58fe90da487c85216bf9671f9499d1a897e9e3
   languageName: node
   linkType: hard
-
-"project-name@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "project-name@workspace:."
-  dependencies:
-    "@eslint/js": "npm:^9.17.0"
-    "@types/jest": "npm:^29.5.14"
-    eslint: "npm:^9.17.0"
-    fp-ts: "npm:^2.16.9"
-    globals: "npm:^15.14.0"
-    jest: "npm:^29.7.0"
-    prettier: "npm:3.4.2"
-    ts-jest: "npm:^29.2.5"
-    ts-node: "npm:^10.9.2"
-    typescript: "npm:^5.7.2"
-    typescript-eslint: "npm:^8.18.2"
-  languageName: unknown
-  linkType: soft
 
 "promise-retry@npm:^2.0.1":
   version: 2.0.1
