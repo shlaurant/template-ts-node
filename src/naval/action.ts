@@ -11,6 +11,7 @@ export function signContract(data: Data, com: c.Company, cont: c.Contract): Data
 }
 
 export function createFleet(data: Data, com: c.Company, ships: ReadonlyArray<c.Ship>): Data {
+  return { ...data, playerCompany: c.createFleet(com, ships) }
 }
 
 export function assignFleet(data: Data, com: c.Company, cont: c.Contract, fleet: c.Fleet): Option<Data> {

@@ -1,24 +1,16 @@
 import { none, Option, some } from "fp-ts/Option"
 import { deleteAt, findIndex } from "fp-ts/ReadonlyArray"
-import * as n from "fp-ts/number"
-import { struct } from "fp-ts/es6/Eq"
-
-export type Identified = Readonly<{
-  id: number;
-}>
-
-export const EqId = struct(
-  {
-    id: n.Eq
-  }
-)
+import { EqId, identify } from "./id"
 
 export type Contract = Readonly<{
-  id: number
+  id: string
 }>
 
+export type Ship = Readonly<{}>
+
 export type Fleet = Readonly<{
-  id: number
+  id: string
+  ships: ReadonlyArray<Ship>
 }>
 
 export type ContractEntry = {
@@ -27,12 +19,16 @@ export type ContractEntry = {
 }
 
 export type Company = Readonly<{
-  contracts: ReadonlyArray<ContractEntry>
   fleets: ReadonlyArray<Fleet>
+  contracts: ReadonlyArray<ContractEntry>
 }>
 
 export function signContract(com: Company, cont: Contract): Company {
   return { ...com, contracts: [...com.contracts, { contract: cont, fleet: none }] }
+}
+
+export function createFleet(com: Company, ships: ReadonlyArray<Ship>): Company {
+  return { ...com, fleets: [...com.fleets, identify({ id: "", ships: ships })] }
 }
 
 export function assignFleet(com: Company, cont: Contract, fleet: Fleet): Option<Company> {
