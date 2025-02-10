@@ -14,8 +14,13 @@ export type Fleet = Readonly<{
 }>
 
 export type ContractEntry = Readonly<{
+  _tag: "un-assigned"
   contract: Contract
-  fleet: Option<Fleet>
+} | {
+  _tag: "assigned"
+  contract: Contract
+  fleet: Fleet
+  assignedAt: number
 }>
 
 export type Company = Readonly<{
@@ -23,15 +28,15 @@ export type Company = Readonly<{
   contracts: ReadonlyArray<ContractEntry>
 }>
 
-export function signContract(com: Company, cont: Contract): Company {
-  return { ...com, contracts: [...com.contracts, { contract: cont, fleet: none }] }
+export function signContract(com: Company, cont: Contract, turn: number): Company {
+  return { ...com, contracts: [...com.contracts, { _tag: "un-assigned", contract: cont }] }
 }
 
 export function createFleet(com: Company, ships: ReadonlyArray<Ship>): Company {
   return { ...com, fleets: [...com.fleets, identify({ id: "", ships: ships })] }
 }
 
-export function assignFleet(com: Company, cont: Contract, fleet: Fleet): Option<Company> {
+export function assignFleet(com: Company, cont: Contract, fleet: Fleet, turn: number): Option<Company> {
   const idx = findIndex<ContractEntry>((e) => EqId.equals(e.contract, cont))(com.contracts)
 
   if (idx._tag === "Some") {
@@ -40,7 +45,7 @@ export function assignFleet(com: Company, cont: Contract, fleet: Fleet): Option<
       return none
     }
 
-    const entry: ContractEntry = { contract: cont, fleet: some(fleet) }
+    const entry: ContractEntry = { _tag: "assigned", contract: cont, fleet: fleet, assignedAt: turn }
     return some({ ...com, contracts: [...ra.value, entry] })
   } else {
     return none

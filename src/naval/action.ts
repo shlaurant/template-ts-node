@@ -7,7 +7,7 @@ export function nextTurn(data: Data): Data {
 }
 
 export function signContract(data: Data, com: c.Company, cont: c.Contract): Data {
-  return { ...data, playerCompany: c.signContract(com, cont) }
+  return { ...data, playerCompany: c.signContract(com, cont, data.turn) }
 }
 
 export function createFleet(data: Data, com: c.Company, ships: ReadonlyArray<c.Ship>): Data {
@@ -15,7 +15,7 @@ export function createFleet(data: Data, com: c.Company, ships: ReadonlyArray<c.S
 }
 
 export function assignFleet(data: Data, com: c.Company, cont: c.Contract, fleet: c.Fleet): Option<Data> {
-  const newCom = c.assignFleet(com, cont, fleet)
+  const newCom = c.assignFleet(com, cont, fleet, data.turn)
   if (newCom._tag === "Some") {
     return some({ ...data, playerCompany: newCom.value })
   } else {
