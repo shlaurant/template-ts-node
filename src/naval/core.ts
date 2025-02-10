@@ -13,10 +13,10 @@ export type Fleet = Readonly<{
   ships: ReadonlyArray<Ship>
 }>
 
-export type ContractEntry = {
+export type ContractEntry = Readonly<{
   contract: Contract
   fleet: Option<Fleet>
-}
+}>
 
 export type Company = Readonly<{
   fleets: ReadonlyArray<Fleet>
