@@ -5,7 +5,7 @@
   "scripts": {
     "test": "jest",
     "lint": "eslint",
-    "start": "ts-node src/main.ts"
+    "start:naval": "ts-node src/naval/main.ts"
   },
   "dependencies": {
     "fp-ts": "^2.16.9"
