@@ -10,6 +10,9 @@ export function signContract(data: Data, com: c.Company, cont: c.Contract): Data
   return { ...data, playerCompany: c.signContract(com, cont) }
 }
 
+export function createFleet(data: Data, com: c.Company, ships: ReadonlyArray<c.Ship>): Data {
+}
+
 export function assignFleet(data: Data, com: c.Company, cont: c.Contract, fleet: c.Fleet): Option<Data> {
   const newCom = c.assignFleet(com, cont, fleet)
   if (newCom._tag === "Some") {
