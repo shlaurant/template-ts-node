@@ -9,3 +9,5 @@ export function signContract(data: Data, com: c.Company, cont: c.Contract): Data
   return { ...data, playerCompany: c.signContract(com, cont) }
 }
 
+export function assignFleet(data: Data, com: c.Company, cont: c.Contract, fleet: c.Fleet): Data {
+}
