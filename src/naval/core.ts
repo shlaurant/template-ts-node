@@ -4,6 +4,7 @@ import { EqId, identify } from "./id"
 
 export type Contract = Readonly<{
   id: string
+  duration: number
 }>
 
 export type Ship = Readonly<{}>
@@ -22,6 +23,10 @@ export type ContractEntry = Readonly<{
   fleet: Fleet
   assignedAt: number
 }>
+
+export function isCompleted(turn: number, entry: ContractEntry): boolean {
+  return entry._tag === "assigned" && turn - entry.assignedAt >= entry.contract.duration
+}
 
 export type Company = Readonly<{
   fleets: ReadonlyArray<Fleet>
