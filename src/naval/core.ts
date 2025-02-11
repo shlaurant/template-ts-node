@@ -1,13 +1,12 @@
 import { none, Option, some } from "fp-ts/Option"
 import { deleteAt, findIndex } from "fp-ts/ReadonlyArray"
 import { EqId, identify } from "./id"
+import { Ship } from "./ship"
 
 export type Contract = Readonly<{
   id: string
   duration: number
 }>
-
-export type Ship = Readonly<{}>
 
 export type Fleet = Readonly<{
   id: string
