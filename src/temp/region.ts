@@ -5,13 +5,13 @@ export type Field = Readonly<{
   outputs: Map<Good, number>
 }>
 
-export type Manor = Readonly<{
+export type Fief = Readonly<{
   size: number;
   fields: ReadonlyArray<Field>
   reserves: Map<Good, number>
 }>
 
-export function produce(manor: Manor): Manor {
+export function produce(manor: Fief): Fief {
   const newReserves = manor.reserves
 
   manor.fields.forEach(e => {
