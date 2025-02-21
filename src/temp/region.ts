@@ -2,6 +2,8 @@ export type Good = "Wheat" | "Wood"
 
 export type FiefConfig = Readonly<{
   consumeCoefficient: number;
+  growthRate: number;
+  shrinkRate: number;
 }>
 
 export type Field = Readonly<{
@@ -29,11 +31,20 @@ export function produce(manor: Fief): Fief {
 }
 
 export function consume(config: FiefConfig, manor: Fief): Fief {
+  const reserve = manor.reserves.get("Wheat") ?? 0
+  const consumption = manor.population * config.consumeCoefficient
+
+  if (consumption < reserve) {
+    manor = { ...manor, population: Math.floor(manor.population * (1 + config.growthRate)) }
+  } else if (consumption > reserve) {
+    manor = { ...manor, population: Math.floor(manor.population * (1 - config.shrinkRate)) }
+  }
+
   return {
     ...manor,
     reserves: manor.reserves.set(
       "Wheat",
-      Math.max((manor.reserves.get("Wheat") ?? 0) - manor.population * config.consumeCoefficient, 0)
+      Math.max(reserve - consumption, 0)
     )
   }
 }
