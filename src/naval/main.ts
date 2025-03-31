@@ -9,9 +9,14 @@ type Ship = {
   armor: number
   dmg: number
   penetration: number
+  range: number
 }
 
-function shoot(from: Ship, other: Ship): void {
+function shoot(from: Ship, other: Ship, distance: number): void {
+  if (distance > from.range) {
+    return
+  }
+
   if (from.penetration > other.armor) {
     other.hp = Math.max(0, other.hp - from.dmg)
   }
@@ -59,13 +64,28 @@ enum RelativeDirection {
   DivergingT,
 }
 
+type RelativePosition = {
+  distance: number
+  direction: RelativeDirection
+}
+
 function defaultShip(): Ship {
-  return { armor: 5, dmg: 10, hp: 100, penetration: 10 }
+  return { armor: 5, dmg: 10, hp: 100, penetration: 10, range: 10 }
 }
 
 function main() {
-  const div1: Division = { ships: [defaultShip(), defaultShip()] }
-  const div2: Division = { ships: [defaultShip(), defaultShip()] }
+  const distance = 20
+  const div1: Division = {
+    ships: [
+      { armor: 5, dmg: 10, hp: 1, penetration: 10, range: 30 }
+    ]
+  }
+  const div2: Division = {
+    ships: [
+      { armor: 5, dmg: 10, hp: 100, penetration: 10, range: 10 },
+      { armor: 5, dmg: 10, hp: 100, penetration: 10, range: 10 }
+    ]
+  }
   console.log(`div1: ${JSON.stringify(div1)}`)
   console.log(`div2: ${JSON.stringify(div2)}`)
 
@@ -77,12 +97,12 @@ function main() {
     const t2 = getRandomsAlive(div1, s2.length)
 
     for (let i = 0; i < s1.length; i++) {
-      shoot(s1[i], t1[i])
+      shoot(s1[i], t1[i], distance)
       console.log(`${JSON.stringify(s1[i])} fires at ${JSON.stringify(t1[i])}`)
     }
 
     for (let i = 0; i < s2.length; i++) {
-      shoot(s2[i], t2[i])
+      shoot(s2[i], t2[i], distance)
       console.log(`${JSON.stringify(s2[i])} fires at ${JSON.stringify(t2[i])}`)
     }
 
