@@ -1,16 +1,21 @@
-import { number } from "fp-ts"
+import { none, Option, some } from "fp-ts/Option"
 
 function sleep(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
 type Ship = {
+  id: number
   hp: number
   armor: number
   dmg: number
   penetration: number
   range: number
   speed: number
+}
+
+function eqShip(x: Ship, y: Ship) {
+  return x.id === y.id
 }
 
 function shoot(from: Ship, other: Ship, distance: number): void {
@@ -29,6 +34,20 @@ function isAlive(s: Ship): boolean {
 
 type Division = {
   ships: Ship[]
+}
+
+function eqDivision(x: Division, y: Division): boolean {
+  if (x.ships.length !== y.ships.length) {
+    return false
+  }
+
+  for (let i = 0; i < x.ships.length; i++) {
+    if (!eqShip(x.ships[i], y.ships[i])) {
+      return false
+    }
+  }
+
+  return true
 }
 
 function speed(div: Division): number {
@@ -66,6 +85,51 @@ function getRandomsAlive(div: Division, n: number): Ship[] {
   return ret
 }
 
+type BattleField = {
+  divisions: Map<number, Division>
+  distances: Map<number, Map<number, number>> // id - id -distance
+}
+
+function idOf(bf: BattleField, div: Division): Option<number> {
+  for (const [k, v] of bf.divisions) {
+    if (eqDivision(v, div)) {
+      return some(k)
+    }
+  }
+
+  return none
+}
+
+function distance(bf: BattleField, lhs: Division, rhs: Division): Option<number> {
+  const lid = idOf(bf, lhs)
+  const rid = idOf(bf, rhs)
+
+  if (lid._tag === "None" || rid._tag == "None") {
+    return none
+  }
+
+  const a = bf.distances.get(lid.value)
+  if (a === undefined) {
+    return none
+  }
+
+  const dist = a.get(rid.value)
+
+  return dist !== undefined ? some(dist) : none
+}
+
+type Maneuver = "CloseDown" | "KeepDistance" | "Disengage"
+
+type Target = {
+  division: Division
+  maneuver: Maneuver
+}
+
+type CommandedDivision = {
+  scoutedEnemyDivisions: Division[]
+  currentTarget: Option<Target>
+}
+
 enum RelativeDirection {
   CrossingParallel,
   DivergingParallel,
@@ -84,13 +148,13 @@ function main() {
   const distance = 20
   const div1: Division = {
     ships: [
-      { armor: 5, dmg: 10, hp: 1, penetration: 10, range: 30, speed: 10 }
+      { id: 1, armor: 5, dmg: 10, hp: 1, penetration: 10, range: 30, speed: 10 }
     ]
   }
   const div2: Division = {
     ships: [
-      { armor: 5, dmg: 10, hp: 100, penetration: 10, range: 10, speed: 10 },
-      { armor: 5, dmg: 10, hp: 100, penetration: 10, range: 10, speed: 10 }
+      { id: 2, armor: 5, dmg: 10, hp: 100, penetration: 10, range: 10, speed: 10 },
+      { id: 3, armor: 5, dmg: 10, hp: 100, penetration: 10, range: 10, speed: 10 }
     ]
   }
   console.log(`div1: ${JSON.stringify(div1)}`)
