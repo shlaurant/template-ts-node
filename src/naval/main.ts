@@ -90,7 +90,7 @@ function main() {
     console.log(`div2: ${JSON.stringify(div2)}`)
   }
 
-  if (isOver(div1) && isOver(div1)) {
+  if (isOver(div1) && isOver(div2)) {
     console.log("draw")
   } else if (isOver(div1)) {
     console.log("div2 won")
