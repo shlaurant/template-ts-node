@@ -10,6 +10,7 @@ type Ship = {
   dmg: number
   penetration: number
   range: number
+  speed: number
 }
 
 function shoot(from: Ship, other: Ship, distance: number): void {
@@ -28,6 +29,16 @@ function isAlive(s: Ship): boolean {
 
 type Division = {
   ships: Ship[]
+}
+
+function speed(div: Division): number {
+  let ret = Number.MAX_SAFE_INTEGER
+
+  div.ships.forEach((ship) => {
+    ret = Math.min(ret, ship.speed)
+  })
+
+  return ret
 }
 
 function isOver(div: Division): boolean {
@@ -69,21 +80,17 @@ type RelativePosition = {
   direction: RelativeDirection
 }
 
-function defaultShip(): Ship {
-  return { armor: 5, dmg: 10, hp: 100, penetration: 10, range: 10 }
-}
-
 function main() {
   const distance = 20
   const div1: Division = {
     ships: [
-      { armor: 5, dmg: 10, hp: 1, penetration: 10, range: 30 }
+      { armor: 5, dmg: 10, hp: 1, penetration: 10, range: 30, speed: 10 }
     ]
   }
   const div2: Division = {
     ships: [
-      { armor: 5, dmg: 10, hp: 100, penetration: 10, range: 10 },
-      { armor: 5, dmg: 10, hp: 100, penetration: 10, range: 10 }
+      { armor: 5, dmg: 10, hp: 100, penetration: 10, range: 10, speed: 10 },
+      { armor: 5, dmg: 10, hp: 100, penetration: 10, range: 10, speed: 10 }
     ]
   }
   console.log(`div1: ${JSON.stringify(div1)}`)
