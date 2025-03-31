@@ -66,6 +66,8 @@ function defaultShip(): Ship {
 function main() {
   const div1: Division = { ships: [defaultShip(), defaultShip()] }
   const div2: Division = { ships: [defaultShip(), defaultShip()] }
+  console.log(`div1: ${JSON.stringify(div1)}`)
+  console.log(`div2: ${JSON.stringify(div2)}`)
 
   while (!isOver(div1) && !isOver(div2)) {
     const s1 = shipsAlive(div1)
@@ -76,11 +78,16 @@ function main() {
 
     for (let i = 0; i < s1.length; i++) {
       shoot(s1[i], t1[i])
+      console.log(`${JSON.stringify(s1[i])} fires at ${JSON.stringify(t1[i])}`)
     }
 
     for (let i = 0; i < s2.length; i++) {
       shoot(s2[i], t2[i])
+      console.log(`${JSON.stringify(s2[i])} fires at ${JSON.stringify(t2[i])}`)
     }
+
+    console.log(`div1: ${JSON.stringify(div1)}`)
+    console.log(`div2: ${JSON.stringify(div2)}`)
   }
 
   if (isOver(div1) && isOver(div1)) {
