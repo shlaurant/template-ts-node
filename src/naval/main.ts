@@ -118,6 +118,24 @@ function distance(bf: BattleField, lhs: Division, rhs: Division): Option<number>
   return dist !== undefined ? some(dist) : none
 }
 
+function updateDistance(bf: BattleField, lhs: Division, rhs: Division, distance: number): boolean {
+  const lid = idOf(bf, lhs)
+  const rid = idOf(bf, rhs)
+
+  if (lid._tag === "None" || rid._tag == "None") {
+    return false
+  }
+
+  const a = bf.distances.get(lid.value)
+  const b = bf.distances.get(rid.value)
+  if (a == undefined || b == undefined) {
+    return false
+  }
+
+  a.set(rid.value, distance)
+  b.set(lid.value, distance)
+}
+
 type Maneuver = "CloseDown" | "KeepDistance" | "Disengage"
 
 type Target = {
