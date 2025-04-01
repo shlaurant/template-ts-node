@@ -100,6 +100,32 @@ function idOf(bf: BattleField, div: Division): Option<number> {
   return none
 }
 
+function addDivision(bf: BattleField, div: Division): boolean {
+  for (const [_, v] of bf.divisions) {
+    if (eqDivision(v, div)) {
+      return false
+    }
+  }
+
+  const id = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER)
+  for (const [k, _] of bf.divisions) {
+    const t = bf.distances.get(k)
+    if (t == undefined) {
+      throw new Error("irrecoverable error")
+    }
+
+    t.set(id, 100)
+  }
+
+  const m = new Map()
+  for (const [k, _] of bf.divisions) {
+    m.set(k, 100)
+  }
+
+  bf.distances.set(id, m)
+  bf.divisions.set(id, div)
+}
+
 function distance(bf: BattleField, lhs: Division, rhs: Division): Option<number> {
   const lid = idOf(bf, lhs)
   const rid = idOf(bf, rhs)
