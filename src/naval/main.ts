@@ -124,6 +124,8 @@ function addDivision(bf: BattleField, div: Division): boolean {
 
   bf.distances.set(id, m)
   bf.divisions.set(id, div)
+
+  return true
 }
 
 function distance(bf: BattleField, lhs: Division, rhs: Division): Option<number> {
@@ -160,6 +162,7 @@ function updateDistance(bf: BattleField, lhs: Division, rhs: Division, distance:
 
   a.set(rid.value, distance)
   b.set(lid.value, distance)
+  return true
 }
 
 type Maneuver = "CloseDown" | "KeepDistance" | "Disengage"
