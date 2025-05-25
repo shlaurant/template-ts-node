@@ -4,7 +4,11 @@ type UserCommandExit = {
   type: "exit"
 }
 
-type UserCommand = UserCommandExit
+type UserCommandSkip = {
+  type: "skip"
+}
+
+type UserCommand = UserCommandExit | UserCommandSkip
 
 function isOver(data: any): boolean {
   return data.isOver
@@ -21,6 +25,10 @@ async function getCommand(readline: rl.Interface, data: any): Promise<UserComman
     return {
       type: "exit"
     }
+  } else if (input == "skip") {
+    return {
+      type: "skip"
+    }
   } else {
     throw Error(`unknown command: ${input}`)
   }
@@ -29,6 +37,16 @@ async function getCommand(readline: rl.Interface, data: any): Promise<UserComman
 function update(data: any, cmd: UserCommand) {
   if (cmd.type === "exit") {
     data.isOver = true
+    return
+  }
+
+  for (const ship of data.ships) {
+    data.balance -= ship.upkeep
+  }
+
+  if (data.balance < 0) {
+    data.isOver = true
+    data.overReason = "bankrupt"
   }
 }
 
@@ -40,6 +58,7 @@ async function main() {
 
   const data = {
     isOver: false,
+    overReason: undefined,
     balance: 0,
     ships: [
       { id: 0, upkeep: 1 }
@@ -52,6 +71,9 @@ async function main() {
     update(data, input)
   }
 
+  if (data.overReason) {
+    console.log(data.overReason)
+  }
   console.log("bye")
   process.exit(0)
 }
