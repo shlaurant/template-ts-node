@@ -30,7 +30,3 @@ const NullCharacter = {
 }
 
 type CharacterSlot = Slot & { character: Character }
-
-function main() {
-
-}
