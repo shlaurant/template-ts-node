@@ -10,11 +10,13 @@ function display(data: any) {
 }
 
 async function getInput(readline: rl.Interface, data: any): Promise<any> {
-  await readline.question("hihi")
+  return readline.question("enter command:")
 }
 
 function update(data: any, input: any) {
-
+  if(input === 'exit') {
+    data.isOver = true
+  }
 }
 
 async function main() {
@@ -36,6 +38,9 @@ async function main() {
     const input = await getInput(readline, data)
     update(data, input)
   }
+
+  console.log('bye')
+  process.exit(0)
 }
 
 void main()
