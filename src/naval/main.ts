@@ -1,5 +1,8 @@
 import * as rl from "readline/promises"
-import { Quest } from "./quest"
+import { Quest, Quests } from "./quest"
+import * as f from "fp-ts/function"
+import * as array from "fp-ts/Array"
+import { getRandomElement } from "../random/slice"
 
 type Ship = {
   id: number;
@@ -86,6 +89,12 @@ async function main() {
     ],
     quests: []
   }
+
+  data.quests = f.pipe(
+    [0, 1, 2],
+    array.map(() => getRandomElement(Quests)),
+    array.compact
+  )
 
   while (!isOver(data)) {
     display(data)
