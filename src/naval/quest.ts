@@ -1,4 +1,4 @@
-import { Id } from "./id"
+import { Id, Identifiable } from "./id"
 
 export type Quest = Readonly<{
   difficulty: number
@@ -11,11 +11,11 @@ export type ShipAssignment = Readonly<{
   shipIds: ReadonlyArray<Id>
 }>
 
-export function AssignShipsToQuest(turn: number, quest: Quest, shipIds: ReadonlyArray<Id>): Quest & ShipAssignment {
+export function AssignShipsToQuest<T extends object>(turn: number, quest: Quest, ships: ReadonlyArray<Identifiable<T>>): Quest & ShipAssignment {
   return {
     ...quest,
     assignedAt: turn,
-    shipIds: shipIds
+    shipIds: ships.map(e => e.id)
   }
 }
 
