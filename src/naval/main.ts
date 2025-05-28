@@ -3,17 +3,14 @@ import { Quest, Quests } from "./quest"
 import * as f from "fp-ts/function"
 import * as array from "fp-ts/Array"
 import { getRandomElement } from "../random/slice"
-
-type Ship = {
-  id: number;
-  upkeep: number
-}
+import { Identifiable } from "./id"
+import { Ship } from "./ship"
 
 type Data = {
   isOver: boolean
   overReason?: string,
   balance: number,
-  ships: Ship[],
+  ships: Identifiable<Ship>[],
   quests: Quest[]
 }
 
@@ -93,7 +90,7 @@ async function main() {
     overReason: undefined,
     balance: 0,
     ships: [
-      { id: 0, upkeep: 1 }
+      { id: 0, upkeep: 1, combat: 1 }
     ],
     quests: []
   }
