@@ -1,8 +1,8 @@
-export type Quest = {
+export type Quest = Readonly<{
   difficulty: number
   length: number
   reward: number
-}
+}>
 
 export const Quests: Quest[] = [
   { difficulty: 1, length: 1, reward: 1 },
