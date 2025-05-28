@@ -41,20 +41,28 @@ async function getCommand(readline: rl.Interface, data: Data): Promise<UserComma
   const cmd = input.split(" ")[0]
   const args = input.split(" ").slice(1)
 
-  if (cmd === "exit") {
-    return {
-      type: "exit"
-    }
-  } else if (cmd === "skip") {
-    return {
-      type: "skip"
-    }
-  } else if (cmd === "show" && args[0] === "quests") {
-    console.log(JSON.stringify(data.quests))
-    return getCommand(readline, data)
-  } else {
-    console.log(`invalid input: ${input}`)
-    return getCommand(readline, data)
+  switch (cmd) {
+    case "exit":
+      return {
+        type: "exit"
+      }
+    case "skip":
+      return {
+        type: "skip"
+      }
+    case "show":
+      switch (args[0]) {
+        case "quests":
+          console.log(JSON.stringify(data.quests))
+          break
+        case "ships":
+          console.log(JSON.stringify(data.ships))
+          break
+      }
+      return getCommand(readline, data)
+    default:
+      console.log(`invalid input: ${input}`)
+      return getCommand(readline, data)
   }
 }
 
