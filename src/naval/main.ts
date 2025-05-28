@@ -36,7 +36,7 @@ function display(data: any) {
 async function getCommand(readline: rl.Interface, data: Data): Promise<UserCommand> {
   const input = await readline.question("enter command:")
   const cmd = input.split(" ")[0]
-  const args = input.split("").slice(1)
+  const args = input.split(" ").slice(1)
 
   if (cmd === "exit") {
     return {
