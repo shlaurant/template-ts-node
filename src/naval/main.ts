@@ -21,16 +21,19 @@ function display(data: any) {
 
 async function getCommand(readline: rl.Interface, data: any): Promise<UserCommand> {
   const input = await readline.question("enter command:")
-  if (input === "exit") {
+  const cmd = input.split(" ")[0]
+  const args = input.split("").slice(1)
+
+  if (cmd === "exit") {
     return {
       type: "exit"
     }
-  } else if (input == "skip") {
+  } else if (cmd == "skip") {
     return {
       type: "skip"
     }
   } else {
-    throw Error(`unknown command: ${input}`)
+    throw Error(`unknown command: ${cmd}`)
   }
 }
 
