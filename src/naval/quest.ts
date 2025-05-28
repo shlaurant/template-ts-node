@@ -1,4 +1,4 @@
-export type Id = number
+import { Id } from "./id"
 
 export type Quest = Readonly<{
   difficulty: number
