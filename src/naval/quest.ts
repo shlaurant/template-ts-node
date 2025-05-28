@@ -6,16 +6,14 @@ export type Quest = Readonly<{
   reward: number
 }>
 
-export type ShipAssignment = Readonly<{
-  assignedAt: number
-  shipIds: ReadonlyArray<Id>
+export type QuestAssignment = Readonly<{
+  questId: Id
 }>
 
-export function AssignShipsToQuest<T extends object>(turn: number, quest: Quest, ships: ReadonlyArray<Identifiable<T>>): Quest & ShipAssignment {
+function assignQuest<T extends object>(obj: T, quest: Identifiable<Quest>): T & QuestAssignment {
   return {
-    ...quest,
-    assignedAt: turn,
-    shipIds: ships.map(e => e.id)
+    ...obj,
+    questId: quest.id
   }
 }
 
