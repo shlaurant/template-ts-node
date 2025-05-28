@@ -50,7 +50,8 @@ async function getCommand(readline: rl.Interface, data: Data): Promise<UserComma
     console.log(JSON.stringify(data.quests))
     return getCommand(readline, data)
   } else {
-    throw Error(`unknown command: ${cmd}`)
+    console.log(`invalid input: ${input}`)
+    return getCommand(readline, data)
   }
 }
 
