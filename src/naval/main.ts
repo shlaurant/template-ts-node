@@ -3,7 +3,7 @@ import { Quest, Quests } from "./quest"
 import * as f from "fp-ts/function"
 import * as array from "fp-ts/Array"
 import { getRandomElement } from "../random/slice"
-import { Identifiable } from "./id"
+import { giveId, Identifiable } from "./id"
 import { Ship } from "./ship"
 
 type Data = {
@@ -11,7 +11,7 @@ type Data = {
   overReason?: string,
   balance: number,
   ships: Identifiable<Ship>[],
-  quests: Quest[]
+  quests: Identifiable<Quest>[]
 }
 
 type UserCommandExit = {
@@ -98,7 +98,8 @@ async function main() {
   data.quests = f.pipe(
     [0, 1, 2],
     array.map(() => getRandomElement(Quests)),
-    array.compact
+    array.compact,
+    array.map((quest) => giveId(quest))
   )
 
   while (!isOver(data)) {
