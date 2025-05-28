@@ -10,7 +10,7 @@ export type QuestAssignment = Readonly<{
   questId: Id
 }>
 
-function assignQuest<T extends object>(obj: T, quest: Identifiable<Quest>): T & QuestAssignment {
+export function assignQuest<T extends object>(obj: T, quest: Identifiable<Quest>): T & QuestAssignment {
   return {
     ...obj,
     questId: quest.id

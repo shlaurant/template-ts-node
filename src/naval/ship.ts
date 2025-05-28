@@ -10,7 +10,7 @@ export type ShipAssignment = Readonly<{
   shipIds: ReadonlyArray<Id>
 }>
 
-export function assignShips<T extends object>(turn: number, obj: T, ships: ReadonlyArray<Identifiable<T>>): T & ShipAssignment {
+export function assignShips<T extends object>(turn: number, obj: T, ships: ReadonlyArray<Identifiable<Ship>>): T & ShipAssignment {
   return {
     ...obj,
     assignedAt: turn,
