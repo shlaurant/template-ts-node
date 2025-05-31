@@ -106,17 +106,13 @@ function update(data: Data, cmd: UserCommand): string[] {
     case "next":
       const updateResult = updateDispatchStatus(
         data.turn,
-        filterMap<Identifiable<Quest>, Identifiable<Quest & ShipAssignment>>((e) =>
-          isShipAssigned(e) ? o.some(e) : o.none,
-        )(data.quests),
-        filterMap<Identifiable<Ship>, Identifiable<Ship & QuestAssignment>>((e) =>
-          isQuestAssigned(e) ? o.some(e) : o.none,
-        )(data.ships),
+        Array.from(data.quests.values()).filter((e) => isShipAssigned(e)),
+        Array.from(data.ships.values()).filter((e) => isQuestAssigned(e)),
       )
       data.quests.forEach((v, k) => data.quests.set(k, v))
       data.ships.forEach((v, k) => data.ships.set(k, v))
       data.balance += updateResult.rewards
-      updateResult.events.forEach(e=>ret.push(e))
+      updateResult.events.forEach((e) => ret.push(e))
 
       for (const ship of data.ships.values()) {
         data.balance -= ship.upkeep
@@ -167,7 +163,7 @@ async function main() {
     display(data)
     const input = await getCommand(readline, data)
     const events = update(data, input)
-    events.forEach(e=>console.log(e))
+    events.forEach((e) => console.log(e))
   }
 
   if (data.overReason) {

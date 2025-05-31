@@ -3,40 +3,38 @@ import { dismissQuest, Quest, QuestAssignment } from "./quest"
 import { dismissShips, Ship, ShipAssignment } from "./ship"
 
 export type UpdateDispatchResult = {
-  quests: ReadonlyMap<Id, Identifiable<Quest>>
-  ships: ReadonlyMap<Id, Identifiable<Ship>>
+  quests: ReadonlyArray<Identifiable<Quest>>
+  ships: ReadonlyArray<Identifiable<Ship>>
   rewards: number
-  events: string[]
+  events: ReadonlyArray<string>
 }
 
 export function updateDispatchStatus(
   turn: number,
-  quests: ReadonlyMap<Id, Identifiable<Quest & ShipAssignment>>,
-  ships: ReadonlyMap<Id, Identifiable<Ship & QuestAssignment>>,
+  quests: ReadonlyArray<Identifiable<Quest & ShipAssignment>>,
+  ships: ReadonlyArray<Identifiable<Ship & QuestAssignment>>,
 ): UpdateDispatchResult {
   const ret = {
-    quests: new Map<Id, Identifiable<Quest>>(),
-    ships: new Map<Id, Identifiable<Ship>>(),
+    quests: [] as Identifiable<Quest>[],
+    ships: [] as Identifiable<Ship>[],
     rewards: 0,
     events: [] as string[],
   }
 
   const toDismiss = new Set<Id>()
 
-  quests.forEach((v, k) => {
-    if (v.assignedAt + v.length < turn) {
-      ret.quests.set(k, dismissShips(v))
-      ret.rewards += v.reward
-      v.shipIds.forEach(e=>toDismiss.add(e))
-      ret.events.push(`Quest ${k} has been completed`)
+  quests.forEach((e) => {
+    if (e.assignedAt + e.length < turn) {
+      ret.quests.push(dismissShips(e))
+      ret.rewards += e.reward
+      e.shipIds.forEach((id) => toDismiss.add(id))
+      ret.events.push(`Quest ${e.id} has been completed`)
     }
   })
 
-  ships.forEach((v, k) => {
-    if (toDismiss.has(k)) {
-      ret.ships.set(k, dismissQuest(v))
-    } else {
-      ret.ships.set(k, v)
+  ships.forEach((e) => {
+    if (toDismiss.has(e.id)) {
+      ret.ships.push(dismissQuest(e))
     }
   })
 
