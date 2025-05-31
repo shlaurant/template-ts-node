@@ -36,6 +36,7 @@ function isOver(data: any): boolean {
 }
 
 function display(data: any) {
+  console.log(`turn: ${data.turn}`)
   console.log(`balance: ${data.balance}`)
 }
 
@@ -106,6 +107,8 @@ function update(data: Data, cmd: UserCommand) {
     data.isOver = true
     data.overReason = "bankrupt"
   }
+
+  data.turn++
 }
 
 async function main() {
