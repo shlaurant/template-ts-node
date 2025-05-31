@@ -1,21 +1,13 @@
 import * as rl from "readline/promises"
-import { isQuestAssigned, Quest, Quests } from "./quest"
+import { isQuestAssigned, Quests } from "./quest"
 import * as f from "fp-ts/function"
 import * as array from "fp-ts/Array"
 import { getRandomElement } from "../random/slice"
-import { giveId, Id, id, Identifiable } from "./id"
+import { giveId, id, Identifiable } from "./id"
 import { isShipAssigned, Ship } from "./ship"
 import { dispatchShips, DispatchShipsInput } from "./command"
 import { updateDispatchStatus } from "./update"
-
-type Data = {
-  turn: number
-  isOver: boolean
-  overReason?: string
-  balance: number
-  ships: Map<Id, Identifiable<Ship>>
-  quests: Map<Id, Identifiable<Quest>>
-}
+import { Data } from "./data"
 
 type UserCommandExit = {
   type: "exit"
