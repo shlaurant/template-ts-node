@@ -17,3 +17,10 @@ export function assignShips<T extends object>(turn: number, obj: T, ships: Reado
     shipIds: ships.map(e => e.id)
   }
 }
+
+export function dismissShips<T extends object>(obj: T & ShipAssignment): T {
+  const ret: any = { ...obj }
+  delete ret.assignedAt
+  delete ret.shipIds
+  return ret
+}
