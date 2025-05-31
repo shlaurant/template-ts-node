@@ -1,14 +1,12 @@
 import * as rl from "readline/promises"
-import { isQuestAssigned, Quest, QuestAssignment, Quests } from "./quest"
+import { isQuestAssigned, Quest, Quests } from "./quest"
 import * as f from "fp-ts/function"
 import * as array from "fp-ts/Array"
-import * as o from "fp-ts/Option"
 import { getRandomElement } from "../random/slice"
 import { giveId, Id, id, Identifiable } from "./id"
-import { isShipAssigned, Ship, ShipAssignment } from "./ship"
+import { isShipAssigned, Ship } from "./ship"
 import { dispatchShips, DispatchShipsInput } from "./command"
 import { updateDispatchStatus } from "./update"
-import { filterMap } from "fp-ts/Map"
 
 type Data = {
   turn: number
