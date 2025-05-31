@@ -67,13 +67,24 @@ async function getCommand(readline: rl.Interface, data: Data): Promise<UserComma
     case "dispatch":
       const questId = id(args[0])
       const shipIds = args.slice(1).map((e) => id(e))
+      const quest = data.quests.get(questId)
+      if (!quest) {
+        console.log(`wrong quest id ${questId}`)
+        return getCommand(readline, data)
+      }
+
+      const ships = shipIds.map((e)=>data.ships.get(e))
+      if(ships.find(e=>e === undefined)) {
+        console.log(`wrong ship ids ${shipIds}`)
+        return getCommand(readline, data)
+      }
 
       return {
         type: "dispatch",
         input: {
           turn: data.turn,
-          quest: data.quests.get(questId)!,
-          ships: shipIds.map((e) => data.ships.get(e)!),
+          quest: quest,
+          ships: ships as Identifiable<Ship>[],
         },
       }
     default:
@@ -124,7 +135,8 @@ async function main() {
     quests: new Map(),
   }
 
-  data.ships.set(0, giveId({upkeep: 1, combat: 1 }))
+  let ship = giveId({upkeep: 1, combat: 1 })
+  data.ships.set(ship.id, ship)
 
   data.quests = f.pipe(
     [0, 1, 2],
