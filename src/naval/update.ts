@@ -28,6 +28,7 @@ export function updateDispatchStatus(
       ret.quests.set(k, dismissShips(v))
       ret.rewards += v.reward
       v.shipIds.forEach(toDismiss.add)
+      ret.events.push(`Quest ${k} has been completed`)
     }
   })
 
