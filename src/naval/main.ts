@@ -109,8 +109,8 @@ function update(data: Data, cmd: UserCommand): string[] {
         Array.from(data.quests.values()).filter((e) => isShipAssigned(e)),
         Array.from(data.ships.values()).filter((e) => isQuestAssigned(e)),
       )
-      data.quests.forEach((v, k) => data.quests.set(k, v))
-      data.ships.forEach((v, k) => data.ships.set(k, v))
+      updateResult.quests.forEach((v, k) => data.quests.set(k, v))
+      updateResult.ships.forEach((v, k) => data.ships.set(k, v))
       data.balance += updateResult.rewards
       updateResult.events.forEach((e) => ret.push(e))
 
