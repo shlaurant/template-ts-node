@@ -5,7 +5,7 @@ import * as array from "fp-ts/Array"
 import { getRandomElement } from "../random/slice"
 import { giveId, Id, id, Identifiable } from "./id"
 import { Ship } from "./ship"
-import { DispatchShipsInput } from "./command"
+import { dispatchShips, DispatchShipsInput } from "./command"
 
 type Data = {
   turn: number
@@ -81,7 +81,7 @@ async function getCommand(readline: rl.Interface, data: Data): Promise<UserComma
   }
 }
 
-function update(data: any, cmd: UserCommand) {
+function update(data: Data, cmd: UserCommand) {
   switch (cmd.type) {
     case "exit":
       data.isOver = true
@@ -90,12 +90,15 @@ function update(data: any, cmd: UserCommand) {
       //do nothing
       break
     case "dispatch":
+      const output = f.pipe(cmd.input, dispatchShips)
+      data.quests.set(output.quest.id, output.quest)
+      output.ships.forEach(e => data.ships.set(e.id, e))
       break
     default:
       throw new Error(`unexpected cmd ${JSON.stringify(cmd)}`)
   }
 
-  for (const ship of data.ships) {
+  for (const ship of data.ships.values()) {
     data.balance -= ship.upkeep
   }
 
@@ -115,7 +118,7 @@ async function main() {
     turn: 0,
     isOver: false,
     overReason: undefined,
-    balance: 0,
+    balance: 10,
     ships: new Map(),
     quests: new Map()
   }
