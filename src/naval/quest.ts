@@ -17,6 +17,12 @@ export function assignQuest<T extends object>(obj: T, quest: Identifiable<Quest>
   }
 }
 
+export function dismissQuest<T extends object>(obj: T & QuestAssignment): T {
+  const ret: any = { ...obj }
+  delete ret.questId
+  return ret
+}
+
 export const Quests: Quest[] = [
   { difficulty: 1, length: 1, reward: 1 },
   { difficulty: 2, length: 1, reward: 2 },
