@@ -24,10 +24,10 @@ export function updateDispatchStatus(
   const toDismiss = new Set<Id>()
 
   quests.forEach((v, k) => {
-    if (v.assignedAt + v.length > turn) {
+    if (v.assignedAt + v.length < turn) {
       ret.quests.set(k, dismissShips(v))
       ret.rewards += v.reward
-      v.shipIds.forEach(toDismiss.add)
+      v.shipIds.forEach(e=>toDismiss.add(e))
       ret.events.push(`Quest ${k} has been completed`)
     }
   })
