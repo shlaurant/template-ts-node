@@ -167,7 +167,7 @@ async function main() {
     display(data)
     const input = await getCommand(readline, data)
     const events = update(data, input)
-    events.forEach(console.log)
+    events.forEach(e=>console.log(e))
   }
 
   if (data.overReason) {
