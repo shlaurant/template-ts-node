@@ -3,15 +3,17 @@ import { Quest, Quests } from "./quest"
 import * as f from "fp-ts/function"
 import * as array from "fp-ts/Array"
 import { getRandomElement } from "../random/slice"
-import { giveId, Identifiable } from "./id"
+import { giveId, Id, id, Identifiable } from "./id"
 import { Ship } from "./ship"
+import { DispatchShipsInput } from "./command"
 
 type Data = {
+  turn: number
   isOver: boolean
   overReason?: string,
   balance: number,
-  ships: Identifiable<Ship>[],
-  quests: Identifiable<Quest>[]
+  ships: Map<Id, Identifiable<Ship>>,
+  quests: Map<Id, Identifiable<Quest>>
 }
 
 type UserCommandExit = {
@@ -22,7 +24,12 @@ type UserCommandSkip = {
   type: "skip"
 }
 
-type UserCommand = UserCommandExit | UserCommandSkip
+type UserCommandDispatchShips = {
+  type: "dispatch"
+  input: DispatchShipsInput
+}
+
+type UserCommand = UserCommandExit | UserCommandSkip | UserCommandDispatchShips
 
 function isOver(data: any): boolean {
   return data.isOver
@@ -30,7 +37,6 @@ function isOver(data: any): boolean {
 
 function display(data: any) {
   console.log(`balance: ${data.balance}`)
-  console.log(`ships: ${JSON.stringify(data.ships)}`)
 }
 
 async function getCommand(readline: rl.Interface, data: Data): Promise<UserCommand> {
@@ -50,13 +56,25 @@ async function getCommand(readline: rl.Interface, data: Data): Promise<UserComma
     case "show":
       switch (args[0]) {
         case "quests":
-          console.log(JSON.stringify(data.quests))
+          console.log(JSON.stringify(Array.from(data.quests.values())))
           break
         case "ships":
-          console.log(JSON.stringify(data.ships))
+          console.log(JSON.stringify(Array.from(data.ships.values())))
           break
       }
       return getCommand(readline, data)
+    case "dispatch":
+      const questId = id(args[0])
+      const shipIds = args.slice(1).map(e => id(e))
+
+      return {
+        type: "dispatch",
+        input: {
+          turn: data.turn,
+          quest: data.quests.get(questId)!,
+          ships: shipIds.map(e => data.ships.get(e)!)
+        }
+      }
     default:
       console.log(`invalid input: ${input}`)
       return getCommand(readline, data)
@@ -86,20 +104,22 @@ async function main() {
   )
 
   const data: Data = {
+    turn: 0,
     isOver: false,
     overReason: undefined,
     balance: 0,
-    ships: [
-      { id: 0, upkeep: 1, combat: 1 }
-    ],
-    quests: []
+    ships: new Map(),
+    quests: new Map()
   }
+
+  data.ships.set(0, { id: 0, upkeep: 1, combat: 1 })
 
   data.quests = f.pipe(
     [0, 1, 2],
     array.map(() => getRandomElement(Quests)),
     array.compact,
-    array.map((quest) => giveId(quest))
+    array.map((quest) => giveId(quest)),
+    array.reduce(data.quests, (m, e) => m.set(e.id, e))
   )
 
   while (!isOver(data)) {
