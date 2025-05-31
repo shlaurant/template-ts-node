@@ -82,9 +82,17 @@ async function getCommand(readline: rl.Interface, data: Data): Promise<UserComma
 }
 
 function update(data: any, cmd: UserCommand) {
-  if (cmd.type === "exit") {
-    data.isOver = true
-    return
+  switch (cmd.type) {
+    case "exit":
+      data.isOver = true
+      return
+    case "skip":
+      //do nothing
+      break
+    case "dispatch":
+      break
+    default:
+      throw new Error(`unexpected cmd ${JSON.stringify(cmd)}`)
   }
 
   for (const ship of data.ships) {
