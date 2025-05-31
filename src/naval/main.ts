@@ -1,11 +1,14 @@
 import * as rl from "readline/promises"
-import { Quest, Quests } from "./quest"
+import { isQuestAssigned, Quest, QuestAssignment, Quests } from "./quest"
 import * as f from "fp-ts/function"
 import * as array from "fp-ts/Array"
+import * as o from "fp-ts/Option"
 import { getRandomElement } from "../random/slice"
 import { giveId, Id, id, Identifiable } from "./id"
-import { Ship } from "./ship"
+import { isShipAssigned, Ship, ShipAssignment } from "./ship"
 import { dispatchShips, DispatchShipsInput } from "./command"
+import { updateDispatchStatus } from "./update"
+import { filterMap } from "fp-ts/Map"
 
 type Data = {
   turn: number
@@ -73,8 +76,8 @@ async function getCommand(readline: rl.Interface, data: Data): Promise<UserComma
         return getCommand(readline, data)
       }
 
-      const ships = shipIds.map((e)=>data.ships.get(e))
-      if(ships.find(e=>e === undefined)) {
+      const ships = shipIds.map((e) => data.ships.get(e))
+      if (ships.find((e) => e === undefined)) {
         console.log(`wrong ship ids ${shipIds}`)
         return getCommand(readline, data)
       }
@@ -101,6 +104,16 @@ function update(data: Data, cmd: UserCommand): string[] {
       data.isOver = true
       return ret
     case "next":
+      const updateResult = updateDispatchStatus(
+        data.turn,
+        filterMap<Identifiable<Quest>, Identifiable<Quest & ShipAssignment>>((e) =>
+          isShipAssigned(e) ? o.some(e) : o.none,
+        )(data.quests),
+        filterMap<Identifiable<Ship>, Identifiable<Ship & QuestAssignment>>((e) =>
+          isQuestAssigned(e) ? o.some(e) : o.none,
+        )(data.ships),
+      )
+
       for (const ship of data.ships.values()) {
         data.balance -= ship.upkeep
       }
@@ -135,7 +148,7 @@ async function main() {
     quests: new Map(),
   }
 
-  let ship = giveId({upkeep: 1, combat: 1 })
+  let ship = giveId({ upkeep: 1, combat: 1 })
   data.ships.set(ship.id, ship)
 
   data.quests = f.pipe(

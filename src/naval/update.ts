@@ -18,13 +18,13 @@ export function updateDispatchStatus(
     quests: new Map<Id, Identifiable<Quest>>(),
     ships: new Map<Id, Identifiable<Ship>>(),
     rewards: 0,
-    events: [] as string[]
+    events: [] as string[],
   }
 
-  const toDismiss = new Set<Id>
+  const toDismiss = new Set<Id>()
 
-  quests.forEach((v, k)=>{
-    if(v.assignedAt + v.length > turn) {
+  quests.forEach((v, k) => {
+    if (v.assignedAt + v.length > turn) {
       ret.quests.set(k, dismissShips(v))
       ret.rewards += v.reward
       v.shipIds.forEach(toDismiss.add)
@@ -32,8 +32,8 @@ export function updateDispatchStatus(
     }
   })
 
-  ships.forEach((v, k)=>{
-    if(toDismiss.has(k)) {
+  ships.forEach((v, k) => {
+    if (toDismiss.has(k)) {
       ret.ships.set(k, dismissQuest(v))
     } else {
       ret.ships.set(k, v)

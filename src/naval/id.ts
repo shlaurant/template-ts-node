@@ -1,4 +1,3 @@
-
 export type Id = number
 
 export type Identifiable<T extends object> = T & {
@@ -6,9 +5,9 @@ export type Identifiable<T extends object> = T & {
 }
 
 export function id(src: unknown): Id {
-  let ret: Id | undefined;
+  let ret: Id | undefined
 
-  if(typeof src === 'string') {
+  if (typeof src === "string") {
     try {
       src = Number(src)
     } catch {
@@ -16,11 +15,11 @@ export function id(src: unknown): Id {
     }
   }
 
-  if(typeof src === 'number' && Number.isInteger(src)) {
+  if (typeof src === "number" && Number.isInteger(src)) {
     ret = src
   }
 
-  if(ret === undefined) {
+  if (ret === undefined) {
     throw new Error(`invalid id: ${src}`)
   }
 
@@ -32,6 +31,6 @@ let nextId = 1
 export function giveId<T extends object>(obj: T): Identifiable<T> {
   return {
     ...obj,
-    id: nextId++
+    id: nextId++,
   }
 }
