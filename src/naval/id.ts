@@ -27,9 +27,11 @@ export function id(src: unknown): Id {
   return ret
 }
 
+let nextId = 1
+
 export function giveId<T extends object>(obj: T): Identifiable<T> {
   return {
     ...obj,
-    id: Math.floor(Math.random() * Number.MAX_SAFE_INTEGER)
+    id: nextId++
   }
 }

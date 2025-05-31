@@ -124,7 +124,7 @@ async function main() {
     quests: new Map(),
   }
 
-  data.ships.set(0, { id: 0, upkeep: 1, combat: 1 })
+  data.ships.set(0, giveId({upkeep: 1, combat: 1 }))
 
   data.quests = f.pipe(
     [0, 1, 2],
