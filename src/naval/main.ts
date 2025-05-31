@@ -82,11 +82,13 @@ async function getCommand(readline: rl.Interface, data: Data): Promise<UserComma
   }
 }
 
-function update(data: Data, cmd: UserCommand) {
+function update(data: Data, cmd: UserCommand): string[] {
+  const ret: string[] = []
+
   switch (cmd.type) {
     case "exit":
       data.isOver = true
-      return
+      return ret
     case "skip":
       //do nothing
       break
@@ -109,6 +111,8 @@ function update(data: Data, cmd: UserCommand) {
   }
 
   data.turn++
+
+  return ret
 }
 
 async function main() {
@@ -139,7 +143,8 @@ async function main() {
   while (!isOver(data)) {
     display(data)
     const input = await getCommand(readline, data)
-    update(data, input)
+    const events = update(data, input)
+    events.forEach(console.log)
   }
 
   if (data.overReason) {
