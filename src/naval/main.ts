@@ -7,7 +7,7 @@ import { giveId, id, Identifiable } from "./core/id"
 import { isShipAssigned, Ship } from "./core/ship"
 import { dispatchShips, DispatchShipsInput } from "./core/command"
 import { checkDispatch } from "./core/turn"
-import { Data, updateDispatchShipsReturn, updateDispatchStatusReturn } from "./data"
+import { Data, updateDispatchShipsReturn, updateCheckDispatchReturn } from "./data"
 
 type UserCommandExit = {
   type: "exit"
@@ -102,7 +102,7 @@ function update(data: Data, cmd: UserCommand): string[] {
             Array.from(d.quests.values()).filter((e) => isShipAssigned(e)),
             Array.from(d.ships.values()).filter((e) => isQuestAssigned(e)),
           )] as const,
-        ([d, v])=> updateDispatchStatusReturn(d, v),
+        ([d, v])=> updateCheckDispatchReturn(d, v),
       )
 
       for (const ship of data.ships.values()) {

@@ -20,7 +20,7 @@ export function updateDispatchShipsReturn(data: Data, value: DispatchShipsReturn
   return data
 }
 
-export function updateDispatchStatusReturn(data: Data, value: UpdateDispatchResult): Data {
+export function updateCheckDispatchReturn(data: Data, value: UpdateDispatchResult): Data {
   value.quests.forEach((e) => data.quests.set(e.id, e))
   value.ships.forEach((e) => data.ships.set(e.id, e))
   data.balance += value.rewards
