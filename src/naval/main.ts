@@ -5,7 +5,7 @@ import * as array from "fp-ts/Array"
 import { getRandomElement } from "../random/slice"
 import { giveId, id, Identifiable } from "./core/id"
 import { isShipAssigned, Ship } from "./core/ship"
-import { dispatchShips, DispatchShipsInput } from "./command"
+import { dispatchShips, DispatchShipsInput } from "./core/command"
 import { updateDispatchStatus } from "./core/update"
 import { Data } from "./data"
 

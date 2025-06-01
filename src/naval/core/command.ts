@@ -1,6 +1,6 @@
-import { Identifiable } from "./core/id"
-import { assignQuest, Quest, QuestAssignment } from "./core/quest"
-import { assignShips, Ship, ShipAssignment } from "./core/ship"
+import { Identifiable } from "./id"
+import { assignQuest, Quest, QuestAssignment } from "./quest"
+import { assignShips, Ship, ShipAssignment } from "./ship"
 
 export type DispatchShipsInput = {
   turn: number
