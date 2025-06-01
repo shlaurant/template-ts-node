@@ -32,7 +32,7 @@ export function updateCheckDispatchReturn(data: Data, value: UpdateDispatchResul
 }
 
 function handleEvent<T extends object>(data:Data, value: T) {
-  if(isEvent(data)) {
-    data.events.push(data.event)
+  if(isEvent(value)) {
+    data.events.push(...value.events)
   }
 }
