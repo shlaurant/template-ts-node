@@ -1,6 +1,6 @@
-import { Id, Identifiable } from "./id"
-import { Ship } from "./ship"
-import { Quest } from "./quest"
+import { Id, Identifiable } from "./core/id"
+import { Ship } from "./core/ship"
+import { Quest } from "./core/quest"
 
 export type Data = {
   turn: number
