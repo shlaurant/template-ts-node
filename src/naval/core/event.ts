@@ -1,7 +1,7 @@
 export type EventString = string
 
 export type Event<T extends object> = T & {
-  events: EventString[]
+  events: ReadonlyArray<EventString>
 }
 
 export function isEvent<T extends object>(data: T): data is Event<T> {
