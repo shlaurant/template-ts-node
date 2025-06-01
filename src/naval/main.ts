@@ -6,7 +6,7 @@ import { getRandomElement } from "../random/slice"
 import { giveId, id, Identifiable } from "./core/id"
 import { isShipAssigned, Ship } from "./core/ship"
 import { dispatchShips, DispatchShipsInput } from "./core/command"
-import { updateDispatchStatus } from "./core/turn"
+import { checkDispatch } from "./core/turn"
 import { Data, updateDispatchShipsReturn, updateDispatchStatusReturn } from "./data"
 
 type UserCommandExit = {
@@ -97,7 +97,7 @@ function update(data: Data, cmd: UserCommand): string[] {
       f.pipe(
         data,
         (d) =>
-          [d, updateDispatchStatus(
+          [d, checkDispatch(
             d.turn,
             Array.from(d.quests.values()).filter((e) => isShipAssigned(e)),
             Array.from(d.ships.values()).filter((e) => isQuestAssigned(e)),

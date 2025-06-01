@@ -9,7 +9,7 @@ export type UpdateDispatchResult = {
   events: ReadonlyArray<string>
 }
 
-export function updateDispatchStatus(
+export function checkDispatch(
   turn: number,
   quests: ReadonlyArray<Identifiable<Quest & ShipAssignment>>,
   ships: ReadonlyArray<Identifiable<Ship & QuestAssignment>>,

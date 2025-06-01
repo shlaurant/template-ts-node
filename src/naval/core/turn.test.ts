@@ -1,7 +1,7 @@
 import { Identifiable } from "./id"
 import { Quest, QuestAssignment } from "./quest"
 import { Ship, ShipAssignment } from "./ship"
-import { updateDispatchStatus } from "./turn"
+import { checkDispatch } from "./turn"
 
 test("updateDispatchStatus", () => {
   const turn = 2
@@ -12,7 +12,7 @@ test("updateDispatchStatus", () => {
     { combat: 0, id: 1, questId: 0, upkeep: 0 },
   ]
 
-  const ret = updateDispatchStatus(turn, quests, ships)
+  const ret = checkDispatch(turn, quests, ships)
 
   expect(ret.quests).toEqual([{ difficulty: 0, id: 0, length: 1, reward: 1 }])
   expect(ret.ships).toEqual([{ combat: 0, id: 1, upkeep: 0 }])
