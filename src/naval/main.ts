@@ -7,7 +7,7 @@ import { giveId, id, Identifiable } from "./core/id"
 import { isShipAssigned, Ship } from "./core/ship"
 import { dispatchShips, DispatchShipsInput } from "./core/command"
 import { updateDispatchStatus } from "./core/turn"
-import { Data } from "./data"
+import { Data, UpdateDispatchShipsReturn } from "./data"
 
 type UserCommandExit = {
   type: "exit"
@@ -117,9 +117,7 @@ function update(data: Data, cmd: UserCommand): string[] {
 
       return ret
     case "dispatch":
-      const output = f.pipe(cmd.input, dispatchShips)
-      data.quests.set(output.quest.id, output.quest)
-      output.ships.forEach((e) => data.ships.set(e.id, e))
+      f.pipe(cmd.input, dispatchShips, (x) => UpdateDispatchShipsReturn(data, x))
       return ret
     default:
       throw new Error(`unexpected cmd ${JSON.stringify(cmd)}`)
