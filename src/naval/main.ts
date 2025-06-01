@@ -135,6 +135,7 @@ async function main() {
     balance: 10,
     ships: new Map(),
     quests: new Map(),
+    events:[]
   }
 
   let ship = giveId({ upkeep: 1, combat: 1 })
