@@ -7,7 +7,7 @@ import { giveId, id, Identifiable } from "./core/id"
 import { isShipAssigned, Ship } from "./core/ship"
 import { dispatchShips, DispatchShipsInput } from "./core/command"
 import { updateDispatchStatus } from "./core/turn"
-import { Data, updateDispatchShipsReturn } from "./data"
+import { Data, updateDispatchShipsReturn, updateDispatchStatusReturn } from "./data"
 
 type UserCommandExit = {
   type: "exit"
@@ -94,15 +94,16 @@ function update(data: Data, cmd: UserCommand): string[] {
       data.isOver = true
       return ret
     case "next":
-      const updateResult = updateDispatchStatus(
-        data.turn,
-        Array.from(data.quests.values()).filter((e) => isShipAssigned(e)),
-        Array.from(data.ships.values()).filter((e) => isQuestAssigned(e)),
+      f.pipe(
+        data,
+        (d) =>
+          [d, updateDispatchStatus(
+            d.turn,
+            Array.from(d.quests.values()).filter((e) => isShipAssigned(e)),
+            Array.from(d.ships.values()).filter((e) => isQuestAssigned(e)),
+          )] as const,
+        ([d, v])=> updateDispatchStatusReturn(d, v),
       )
-      updateResult.quests.forEach((v, k) => data.quests.set(k, v))
-      updateResult.ships.forEach((v, k) => data.ships.set(k, v))
-      data.balance += updateResult.rewards
-      updateResult.events.forEach((e) => ret.push(e))
 
       for (const ship of data.ships.values()) {
         data.balance -= ship.upkeep

@@ -14,13 +14,15 @@ export type Data = {
   quests: Map<Id, Identifiable<Quest>>
 }
 
-export function updateDispatchShipsReturn(data: Data, value: DispatchShipsReturn) {
+export function updateDispatchShipsReturn(data: Data, value: DispatchShipsReturn): Data {
   data.quests.set(value.quest.id, value.quest)
   value.ships.forEach((e) => data.ships.set(e.id, e))
+  return data
 }
 
-export function updateDispatchStatusReturn(data: Data, value: UpdateDispatchResult) {
+export function updateDispatchStatusReturn(data: Data, value: UpdateDispatchResult): Data {
   value.quests.forEach((e) => data.quests.set(e.id, e))
   value.ships.forEach((e) => data.ships.set(e.id, e))
   data.balance += value.rewards
+  return data
 }
