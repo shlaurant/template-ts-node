@@ -6,7 +6,7 @@ import { getRandomElement } from "../random/slice"
 import { giveId, id, Identifiable } from "./core/id"
 import { isShipAssigned, Ship } from "./core/ship"
 import { dispatchShips, DispatchShipsInput } from "./core/command"
-import { updateDispatchStatus } from "./core/update"
+import { updateDispatchStatus } from "./core/turn"
 import { Data } from "./data"
 
 type UserCommandExit = {
