@@ -86,13 +86,13 @@ async function getCommand(readline: rl.Interface, data: Data): Promise<UserComma
   }
 }
 
-function update(data: Data, cmd: UserCommand): string[] {
-  const ret: string[] = []
+function update(data: Data, cmd: UserCommand) {
+  data.events = []
 
   switch (cmd.type) {
     case "exit":
       data.isOver = true
-      return ret
+      return
     case "next":
       f.pipe(
         data,
@@ -116,10 +116,10 @@ function update(data: Data, cmd: UserCommand): string[] {
 
       data.turn++
 
-      return ret
+      return
     case "dispatch":
       f.pipe(cmd.input, dispatchShips, (x) => updateDispatchShipsReturn(data, x))
-      return ret
+      return
     default:
       throw new Error(`unexpected cmd ${JSON.stringify(cmd)}`)
   }
@@ -152,8 +152,8 @@ async function main() {
   while (!isOver(data)) {
     display(data)
     const input = await getCommand(readline, data)
-    const events = update(data, input)
-    events.forEach((e) => console.log(e))
+    update(data, input)
+    data.events.forEach((e) => console.log(e))
   }
 
   if (data.overReason) {
