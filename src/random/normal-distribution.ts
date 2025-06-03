@@ -1,4 +1,4 @@
-function gaussianRandom(mean: number = 0, stdev: number = 1) {
+export function gaussianRandom(mean: number = 0, stdev: number = 1) {
   let u = 1
   while (!(u < 1)) {
     u = 1 - Math.random()

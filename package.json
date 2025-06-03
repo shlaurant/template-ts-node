@@ -5,6 +5,7 @@
   "scripts": {
     "test": "jest",
     "lint": "eslint",
+    "ts-node": "ts-node",
     "start:naval": "ts-node src/naval/main.ts",
     "start:battle": "ts-node src/battle/main.ts"
   },
