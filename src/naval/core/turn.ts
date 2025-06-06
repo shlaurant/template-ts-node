@@ -1,7 +1,7 @@
 import { Id, Identifiable } from "./id"
 import { dismissQuest, Quest, QuestAssignment } from "./quest"
 import { dismissShips, Ship, ShipAssignment } from "./ship"
-import { Event } from "./event"
+import { WithEvent } from "./withEvent"
 
 export type UpdateDispatchResult = {
   quests: ReadonlyArray<Identifiable<Quest>>
@@ -13,7 +13,7 @@ export function checkDispatch(
   turn: number,
   quests: ReadonlyArray<Identifiable<Quest & ShipAssignment>>,
   ships: ReadonlyArray<Identifiable<Ship & QuestAssignment>>,
-): Event<UpdateDispatchResult> {
+): WithEvent<UpdateDispatchResult> {
   const ret = {
     quests: [] as Identifiable<Quest>[],
     ships: [] as Identifiable<Ship>[],

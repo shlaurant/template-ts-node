@@ -4,7 +4,7 @@ import { Ship } from "./core/ship"
 import { Quest } from "./core/quest"
 import { DispatchShipsReturn } from "./core/command"
 import { UpdateDispatchResult } from "./core/turn"
-import { EventString, isEvent } from "./core/event"
+import { EventString, isWithEvent } from "./core/withEvent"
 
 export type Data = {
   turn: number
@@ -32,7 +32,7 @@ export function updateCheckDispatchReturn(data: Data, value: UpdateDispatchResul
 }
 
 function handleEvent<T extends object>(data:Data, value: T) {
-  if(isEvent(value)) {
+  if(isWithEvent(value)) {
     data.events.push(...value.events)
   }
 }

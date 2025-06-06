@@ -1,9 +1,9 @@
 export type EventString = string
 
-export type Event<T extends object> = T & {
+export type WithEvent<T extends object> = T & {
   events: ReadonlyArray<EventString>
 }
 
-export function isEvent<T extends object>(data: T): data is Event<T> {
+export function isWithEvent<T extends object>(data: T): data is WithEvent<T> {
   return "events" in data && typeof data.events === "object"
 }
