@@ -150,6 +150,7 @@ async function main() {
   )
 
   while (!isOver(data)) {
+    console.clear()
     display(data)
     const input = await getCommand(readline, data)
     update(data, input)
