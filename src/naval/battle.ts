@@ -95,10 +95,12 @@ function printDivision(div: Division) {
 }
 
 function run2(left: Division, right: Division) {
+  let round = 1;
   while (!(isEliminated(left) || isEliminated(right))) {
     const ret = tick2(left, right)
     left = ret.left
     right = ret.right
+    console.log(`end of round ${round++}`)
     printDivision(left)
     printDivision(right)
   }
