@@ -1,4 +1,5 @@
 import * as f from "fp-ts/function"
+import * as ra from "fp-ts/ReadonlyArray"
 import { gaussianRandom } from "../random/normal-distribution"
 
 export type Ship = Readonly<{
@@ -21,6 +22,14 @@ export function damage(s: Ship, dmg: number): Ship {
 
 export function isAfloat(s: Ship): boolean {
   return s.hull > 0
+}
+
+export type Division = Readonly<{
+  ships: ReadonlyArray<Ship>
+}>
+
+function isEliminated(d:Division):boolean {
+  return ra.every<Ship>(e=>!isAfloat(e))(d.ships)
 }
 
 export type BattleField = {
