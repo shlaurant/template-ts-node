@@ -28,7 +28,8 @@ function isOver(data: any): boolean {
   return data.isOver
 }
 
-function display(data: any) {
+function display(data: Data) {
+  data.events.forEach((e) => console.log(e))
   console.log(`turn: ${data.turn}`)
   console.log(`balance: ${data.balance}`)
 }
@@ -154,7 +155,6 @@ async function main() {
     display(data)
     const input = await getCommand(readline, data)
     update(data, input)
-    data.events.forEach((e) => console.log(e))
   }
 
   if (data.overReason) {
