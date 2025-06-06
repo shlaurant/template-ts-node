@@ -32,6 +32,18 @@ function display(data: Data) {
   data.events.forEach((e) => console.log(e))
   console.log(`turn: ${data.turn}`)
   console.log(`balance: ${data.balance}`)
+  console.log(`ships:`)
+  for (const ship of data.ships.values()) {
+    let str = `  * [id: ${ship.id}, upkeep: ${ship.upkeep}]`
+    if(isQuestAssigned(ship)) {
+      str += ` !On Quest ${ship.questId}`
+    }
+    console.log(str)
+  }
+  console.log("quests:")
+  for (const quest of data.quests.values()) {
+    console.log(`  * [id: ${quest.id}, length: ${quest.length}, reward: ${quest.reward}]`)
+  }
 }
 
 async function getCommand(readline: rl.Interface, data: Data): Promise<UserCommand> {
@@ -98,12 +110,15 @@ function update(data: Data, cmd: UserCommand) {
       f.pipe(
         data,
         (d) =>
-          [d, checkDispatch(
-            d.turn,
-            Array.from(d.quests.values()).filter((e) => isShipAssigned(e)),
-            Array.from(d.ships.values()).filter((e) => isQuestAssigned(e)),
-          )] as const,
-        ([d, v])=> updateCheckDispatchReturn(d, v),
+          [
+            d,
+            checkDispatch(
+              d.turn,
+              Array.from(d.quests.values()).filter((e) => isShipAssigned(e)),
+              Array.from(d.ships.values()).filter((e) => isQuestAssigned(e)),
+            ),
+          ] as const,
+        ([d, v]) => updateCheckDispatchReturn(d, v),
       )
 
       for (const ship of data.ships.values()) {
@@ -136,7 +151,7 @@ async function main() {
     balance: 10,
     ships: new Map(),
     quests: new Map(),
-    events:[]
+    events: [],
   }
 
   let ship = giveId({ upkeep: 1, combat: 1 })
