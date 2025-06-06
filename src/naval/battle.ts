@@ -19,6 +19,10 @@ export function damage(s: Ship, dmg: number): Ship {
   }
 }
 
+export function isAfloat(s: Ship): boolean {
+  return s.hull > 0
+}
+
 export type BattleField = {
   // distance: number
   left: Ship
