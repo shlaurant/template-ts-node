@@ -1,7 +1,6 @@
 import { Id, Identifiable } from "./id"
 
 export type Quest = Readonly<{
-  difficulty: number
   length: number
   reward: number
 }>
@@ -31,12 +30,12 @@ export function isQuestAssigned<T extends object>(obj: T): obj is T & QuestAssig
 }
 
 export const Quests: Quest[] = [
-  { difficulty: 1, length: 1, reward: 1 },
-  { difficulty: 2, length: 1, reward: 2 },
-  { difficulty: 1, length: 2, reward: 2 },
-  { difficulty: 3, length: 1, reward: 3 },
-  { difficulty: 1, length: 3, reward: 3 },
-  { difficulty: 4, length: 1, reward: 4 },
-  { difficulty: 2, length: 2, reward: 4 },
-  { difficulty: 1, length: 4, reward: 4 },
+  { length: 1, reward: 1 },
+  { length: 1, reward: 2 },
+  { length: 2, reward: 2 },
+  { length: 1, reward: 3 },
+  { length: 3, reward: 3 },
+  { length: 1, reward: 4 },
+  { length: 2, reward: 4 },
+  { length: 4, reward: 4 },
 ]
