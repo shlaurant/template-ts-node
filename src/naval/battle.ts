@@ -1,7 +1,7 @@
 import * as f from "fp-ts/function"
 import { gaussianRandom } from "../random/normal-distribution"
 
-export type Ship = {
+export type Ship = Readonly<{
   hull: number
   armor: number
   penetration: number
@@ -10,6 +10,13 @@ export type Ship = {
   accuracy: number // [0, 1)
   // range: number
   // speed: number
+}>
+
+export function damage(s: Ship, dmg: number): Ship {
+  return {
+    ...s,
+    hull: s.hull - dmg,
+  }
 }
 
 export type BattleField = {
@@ -41,8 +48,8 @@ function tick(df: BattleField) {
   console.log(JSON.stringify(ret1))
   console.log(JSON.stringify(ret2))
 
-  df.right.hull -= ret1.dmg
-  df.left.hull -= ret2.dmg
+  df.right = damage(df.right, ret1.dmg)
+  df.left = damage(df.left, ret2.dmg)
 }
 
 function isHit(pen: number, armor: number) {
