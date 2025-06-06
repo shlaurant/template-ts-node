@@ -1,8 +1,13 @@
 import * as f from "fp-ts/function"
 import * as ra from "fp-ts/ReadonlyArray"
+import * as rm from "fp-ts/ReadonlyMap"
+import * as n from "fp-ts/number"
+import * as o from "fp-ts/Option"
 import { gaussianRandom } from "../random/normal-distribution"
+import { giveId, Id, Identifiable } from "./core/id"
+import { getRandomElement } from "../random/slice"
 
-export type Ship = Readonly<{
+type Ship = Readonly<{
   hull: number
   armor: number
   penetration: number
@@ -13,23 +18,90 @@ export type Ship = Readonly<{
   // speed: number
 }>
 
-export function damage(s: Ship, dmg: number): Ship {
+function damage<T extends Ship>(s: T, dmg: number): T {
   return {
     ...s,
     hull: s.hull - dmg,
   }
 }
 
-export function isAfloat(s: Ship): boolean {
+function isAfloat(s: Ship): boolean {
   return s.hull > 0
 }
 
 export type Division = Readonly<{
-  ships: ReadonlyArray<Ship>
+  ships: ReadonlyMap<Id, Identifiable<Ship>>
 }>
 
-function isEliminated(d:Division):boolean {
-  return ra.every<Ship>(e=>!isAfloat(e))(d.ships)
+function isEliminated(d: Division): boolean {
+  return ra.every<Ship>((e) => !isAfloat(e))(Array.from(d.ships.values()))
+}
+
+function upsertShip(div: Division, ship: Identifiable<Ship>): Division {
+  return {
+    ...div,
+    ships: rm.upsertAt(n.Eq)(ship.id, ship)(div.ships),
+  }
+}
+
+function fireAtRandom(from: Identifiable<Ship>, div: Division): Division {
+  const target = f.pipe(
+    Array.from(div.ships.values()),
+    ra.filter((e) => isAfloat(e)),
+    getRandomElement,
+  )
+  if (target._tag === "None") {
+    return div
+  }
+
+  const res = fireAt(from, target.value)
+  console.log(`from: ${from.id}, to: ${target.value.id}, ${JSON.stringify(res)}`)
+
+  return upsertShip(div, damage(target.value, res.dmg))
+}
+
+// Returns updated to
+function fireDivision(from: Division, to: Division): Division {
+  let ret = to
+
+  for (const ship of Array.from(from.ships.values()).filter((e) => isAfloat(e))) {
+    ret = fireAtRandom(ship, ret)
+  }
+
+  return ret
+}
+
+function tick2(
+  left: Division,
+  right: Division,
+): {
+  left: Division
+  right: Division
+} {
+  return {
+    left: fireDivision(right, left),
+    right: fireDivision(left, right),
+  }
+}
+
+function printDivision(div: Division) {
+  const arr: string[] = []
+
+  for (const s of div.ships.values()) {
+    arr.push(`{id:${s.id}, hull:${s.hull}}`)
+  }
+
+  console.log(`[${arr.join(",")}]`)
+}
+
+function run2(left: Division, right: Division) {
+  while (!(isEliminated(left) || isEliminated(right))) {
+    const ret = tick2(left, right)
+    left = ret.left
+    right = ret.right
+    printDivision(left)
+    printDivision(right)
+  }
 }
 
 export type BattleField = {
@@ -39,12 +111,27 @@ export type BattleField = {
 }
 
 function main() {
-  const bf: BattleField = {
-    left: { accuracy: 0.5, armor: 1, dmg: 1, guns: 5, hull: 10, penetration: 1 },
-    right: { accuracy: 0.5, armor: 1, dmg: 1, guns: 5, hull: 10, penetration: 1 },
+  let left: Division = {
+    ships: new Map(),
+  }
+  let right: Division = {
+    ships: new Map(),
   }
 
-  run(bf)
+  for (let i = 0; i < 5; ++i) {
+    left = upsertShip(
+      left,
+      giveId({ accuracy: 0.5, armor: 10, dmg: 1, guns: 5, hull: 10, penetration: 12 }),
+    )
+  }
+  for (let i = 0; i < 5; ++i) {
+    right = upsertShip(
+      right,
+      giveId({ accuracy: 0.5, armor: 10, dmg: 1, guns: 5, hull: 10, penetration: 12 }),
+    )
+  }
+
+  run2(left, right)
 }
 
 function run(df: BattleField) {
