@@ -2,7 +2,7 @@ import { Id, Identifiable } from "./core/id"
 import { Ship } from "./core/model/ship"
 import { QuestWithEnemyInformation } from "./core/model/quest"
 import { DispatchShipsResult } from "./core/action/dispatch"
-import { UpdateDispatchResult } from "./core/system/turn"
+import { UpdateOnQuestShipsResult } from "./core/system/turn"
 import { EventString, isWithEvent } from "./core/withEvent"
 import { Combatant } from "./core/model/combat"
 import assert from "node:assert"
@@ -26,7 +26,7 @@ export function updateDispatchShipsReturn(data: Data, value: DispatchShipsResult
   return data
 }
 
-export function updateCheckDispatchReturn(data: Data, value: UpdateDispatchResult): Data {
+export function updateCheckDispatchReturn(data: Data, value: UpdateOnQuestShipsResult): Data {
   value.quests.forEach((e) => data.quests.delete(e.id))
   value.ships.forEach((e) => data.ships.set(e.id, e))
   data.balance += value.rewards

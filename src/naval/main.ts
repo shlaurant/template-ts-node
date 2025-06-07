@@ -5,7 +5,7 @@ import * as array from "fp-ts/Array"
 import { giveId, id, Identifiable } from "./core/id"
 import { isShipAssigned, Ship } from "./core/model/ship"
 import { dispatchShips, DispatchShipsInput } from "./core/action/dispatch"
-import { checkDispatch } from "./core/system/turn"
+import { updateOnQuestShips } from "./core/system/turn"
 import { Data, updateCheckDispatchReturn, updateDispatchShipsReturn } from "./data"
 import { getRandomQuest } from "./data/quest"
 import { Combatants } from "./data/combatant"
@@ -122,7 +122,7 @@ function update(data: Data, cmd: UserCommand) {
         (d) =>
           [
             d,
-            checkDispatch(
+            updateOnQuestShips(
               d.turn,
               Array.from(d.quests.values()).filter((e) => isShipAssigned(e)),
               Array.from(d.ships.values()).filter((e) => isQuestAssigned(e)),

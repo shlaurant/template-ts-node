@@ -1,7 +1,7 @@
 import { Identifiable } from "../id"
 import { Quest, QuestAssignment } from "../model/quest"
 import { Ship, ShipAssignment } from "../model/ship"
-import { checkDispatch } from "./turn"
+import { updateOnQuestShips } from "./turn"
 
 test("updateDispatchStatus", () => {
   const turn = 2
@@ -12,7 +12,7 @@ test("updateDispatchStatus", () => {
     { id: 1, questId: 0, upkeep: 0 },
   ]
 
-  const ret = checkDispatch(turn, quests, ships)
+  const ret = updateOnQuestShips(turn, quests, ships)
 
   expect(ret.quests).toEqual([{ id: 0, length: 1, reward: 1 }])
   expect(ret.ships).toEqual([{ id: 1, upkeep: 0 }])
