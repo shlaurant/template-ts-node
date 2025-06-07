@@ -1,10 +1,11 @@
-import * as f from "fp-ts/function"
 import { Id, Identifiable } from "./core/id"
 import { Ship } from "./core/model/ship"
-import { Quest } from "./core/model/quest"
+import { QuestWithEnemyInformation } from "./core/model/quest"
 import { DispatchShipsReturn } from "./core/action/dispatch"
 import { UpdateDispatchResult } from "./core/system/turn"
 import { EventString, isWithEvent } from "./core/withEvent"
+import { Combatant } from "./core/model/combat"
+import assert from "node:assert"
 
 export type Data = {
   turn: number
@@ -12,12 +13,14 @@ export type Data = {
   overReason?: string
   balance: number
   ships: Map<Id, Identifiable<Ship>>
-  quests: Map<Id, Identifiable<Quest>>
+  quests: Map<Id, Identifiable<QuestWithEnemyInformation<Combatant>>>
   events: EventString[]
 }
 
 export function updateDispatchShipsReturn(data: Data, value: DispatchShipsReturn): Data {
-  data.quests.set(value.quest.id, value.quest)
+  const quest = data.quests.get(value.quest.id)
+  assert(quest !== undefined)
+  data.quests.set(value.quest.id, { ...quest, ...value.quest })
   value.ships.forEach((e) => data.ships.set(e.id, e))
   handleEvent(data, value)
   return data
@@ -31,8 +34,8 @@ export function updateCheckDispatchReturn(data: Data, value: UpdateDispatchResul
   return data
 }
 
-function handleEvent<T extends object>(data:Data, value: T) {
-  if(isWithEvent(value)) {
+function handleEvent<T extends object>(data: Data, value: T) {
+  if (isWithEvent(value)) {
     data.events.push(...value.events)
   }
 }

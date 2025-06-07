@@ -43,7 +43,7 @@ function display(data: Data) {
   }
   console.log("quests:")
   for (const quest of data.quests.values()) {
-    console.log(`  * [id: ${quest.id}, length: ${quest.length}, reward: ${quest.reward}]`)
+    console.log(`  * [id: ${quest.id}, length: ${quest.length}, reward: ${quest.reward}, combatant: ${JSON.stringify(quest.possibleEnemies)}]`)
   }
 }
 
