@@ -1,4 +1,4 @@
-import { Id, Identifiable } from "./id"
+import { Id, Identifiable } from "../id"
 
 export type Ship = Readonly<{
   upkeep: number

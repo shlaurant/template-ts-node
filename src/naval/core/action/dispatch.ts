@@ -1,7 +1,7 @@
-import { Identifiable } from "./id"
-import { assignQuest, Quest, QuestAssignment } from "./quest"
-import { assignShips, Ship, ShipAssignment } from "./ship"
-import { WithEvent } from "./withEvent"
+import { Identifiable } from "../id"
+import { assignQuest, Quest, QuestAssignment } from "../model/quest"
+import { assignShips, Ship, ShipAssignment } from "../model/ship"
+import { WithEvent } from "../withEvent"
 
 export type DispatchShipsInput = {
   turn: number

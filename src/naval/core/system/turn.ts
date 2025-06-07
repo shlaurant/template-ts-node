@@ -1,7 +1,7 @@
-import { Id, Identifiable } from "./id"
-import { dismissQuest, Quest, QuestAssignment } from "./quest"
-import { dismissShips, Ship, ShipAssignment } from "./ship"
-import { WithEvent } from "./withEvent"
+import { Id, Identifiable } from "../id"
+import { dismissQuest, Quest, QuestAssignment } from "../model/quest"
+import { dismissShips, Ship, ShipAssignment } from "../model/ship"
+import { WithEvent } from "../withEvent"
 
 export type UpdateDispatchResult = {
   quests: ReadonlyArray<Identifiable<Quest>>

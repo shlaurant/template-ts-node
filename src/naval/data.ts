@@ -1,9 +1,9 @@
 import * as f from "fp-ts/function"
 import { Id, Identifiable } from "./core/id"
-import { Ship } from "./core/ship"
-import { Quest } from "./core/quest"
-import { DispatchShipsReturn } from "./core/command"
-import { UpdateDispatchResult } from "./core/turn"
+import { Ship } from "./core/model/ship"
+import { Quest } from "./core/model/quest"
+import { DispatchShipsReturn } from "./core/action/dispatch"
+import { UpdateDispatchResult } from "./core/system/turn"
 import { EventString, isWithEvent } from "./core/withEvent"
 
 export type Data = {

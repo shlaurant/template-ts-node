@@ -1,12 +1,12 @@
 import * as rl from "readline/promises"
-import { isQuestAssigned, Quests } from "./core/quest"
+import { isQuestAssigned, Quests } from "./core/model/quest"
 import * as f from "fp-ts/function"
 import * as array from "fp-ts/Array"
 import { getRandomElement } from "../random/slice"
 import { giveId, id, Identifiable } from "./core/id"
-import { isShipAssigned, Ship } from "./core/ship"
-import { dispatchShips, DispatchShipsInput } from "./core/command"
-import { checkDispatch } from "./core/turn"
+import { isShipAssigned, Ship } from "./core/model/ship"
+import { dispatchShips, DispatchShipsInput } from "./core/action/dispatch"
+import { checkDispatch } from "./core/system/turn"
 import { Data, updateDispatchShipsReturn, updateCheckDispatchReturn } from "./data"
 
 type UserCommandExit = {

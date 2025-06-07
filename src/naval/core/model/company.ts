@@ -1,5 +1,5 @@
 import { Ship } from "./ship"
-import { Id, Identifiable } from "./id"
+import { Id, Identifiable } from "../id"
 import * as f from "fp-ts/function"
 import * as ra from "fp-ts/ReadonlyArray"
 
