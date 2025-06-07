@@ -32,6 +32,7 @@ function display(data: Data) {
   data.events.forEach((e) => console.log(e))
   console.log(`turn: ${data.turn}`)
   console.log(`balance: ${data.balance}`)
+  console.log(`upkeep: ${Array.from(data.ships.values()).reduce((prev, s)=> prev + s.upkeep, 0)}`)
   console.log(`ships:`)
   for (const ship of data.ships.values()) {
     let str = `  * [id: ${ship.id}, upkeep: ${ship.upkeep}]`
