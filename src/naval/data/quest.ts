@@ -1,4 +1,4 @@
-import { EnemyInformation, Quest } from "../core/model/quest"
+import { Quest, QuestWithEnemy } from "../core/model/quest"
 import { getRandomElement } from "../../random/slice"
 import { Combatant } from "../core/model/combat"
 import { Combatants } from "./combatant"
@@ -14,7 +14,7 @@ const Quests: Quest[] = [
   { length: 4, reward: 4 },
 ]
 
-const QuestsWithEnemy: (Quest & EnemyInformation<Combatant>)[] = []
+const QuestsWithEnemy: QuestWithEnemy<Combatant>[] = []
 
 for (const e of Quests) {
   QuestsWithEnemy.push({
@@ -25,7 +25,7 @@ for (const e of Quests) {
   })
 }
 
-export function getRandomQuest(): Quest& EnemyInformation<Combatant> {
+export function getRandomQuest(): QuestWithEnemy<Combatant> {
   const ret = getRandomElement(QuestsWithEnemy)
   if (ret._tag === "None") {
     throw new Error("quest is none")

@@ -35,6 +35,8 @@ export type EnemyInformation<T extends object> = Readonly<{
   maxEnemies: number
 }>
 
+export type QuestWithEnemyInformation<T extends object> = Quest & EnemyInformation<T>
+
 export function addPossibleEnemies<T extends object>(
   quest: Quest,
   info: EnemyInformation<T>,
