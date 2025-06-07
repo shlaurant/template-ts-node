@@ -14,8 +14,8 @@ test("updateDispatchStatus", () => {
 
   const ret = checkDispatch(turn, quests, ships)
 
-  expect(ret.quests).toEqual([{ difficulty: 0, id: 0, length: 1, reward: 1 }])
-  expect(ret.ships).toEqual([{ combat: 0, id: 1, upkeep: 0 }])
+  expect(ret.quests).toEqual([{ id: 0, length: 1, reward: 1 }])
+  expect(ret.ships).toEqual([{ id: 1, upkeep: 0 }])
   expect(ret.rewards).toBe(1)
   expect(ret.events).toHaveLength(1)
 })
