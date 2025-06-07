@@ -1,5 +1,7 @@
-import { Quest } from "../core/model/quest"
+import { EnemyInformation, Quest } from "../core/model/quest"
 import { getRandomElement } from "../../random/slice"
+import { Combatant } from "../core/model/combat"
+import { Combatants } from "./combatant"
 
 export const Quests: Quest[] = [
   { length: 1, reward: 1 },
@@ -11,6 +13,17 @@ export const Quests: Quest[] = [
   { length: 2, reward: 4 },
   { length: 4, reward: 4 },
 ]
+
+export const QuestsWithEnemy: (Quest & EnemyInformation<Combatant>)[] = []
+
+for (const e of Quests) {
+  QuestsWithEnemy.push({
+    ...e,
+    minEnemies: 1,
+    maxEnemies: 1,
+    possibleEnemies: [{ ...Combatants[0] }],
+  })
+}
 
 export function getRandomQuest(): Quest {
   const ret = getRandomElement(Quests)
