@@ -44,7 +44,9 @@ function display(data: Data) {
   }
   console.log("quests:")
   for (const quest of data.quests.values()) {
-    console.log(`  * [id: ${quest.id}, length: ${quest.length}, reward: ${quest.reward}, combatant: ${JSON.stringify(quest.possibleEnemies)}]`)
+    console.log(
+      `  * [id: ${quest.id}, length: ${quest.length}, reward: ${quest.reward}, combatant: ${JSON.stringify(quest.possibleEnemies)}]`,
+    )
   }
 }
 
@@ -70,6 +72,9 @@ async function getCommand(readline: rl.Interface, data: Data): Promise<UserComma
         case "ships":
           console.log(JSON.stringify(Array.from(data.ships.values())))
           break
+        case "ship":
+          const id = Number(args[1])
+          console.log(JSON.stringify(data.ships.get(id)))
       }
       return getCommand(readline, data)
     case "dispatch":
