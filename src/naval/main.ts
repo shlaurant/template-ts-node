@@ -1,5 +1,5 @@
 import * as rl from "readline/promises"
-import { isQuestAssigned, Quests } from "./core/model/quest"
+import { isQuestAssigned, Quest, Quests } from "./core/model/quest"
 import * as f from "fp-ts/function"
 import * as array from "fp-ts/Array"
 import { getRandomElement } from "../random/slice"
@@ -32,11 +32,11 @@ function display(data: Data) {
   data.events.forEach((e) => console.log(e))
   console.log(`turn: ${data.turn}`)
   console.log(`balance: ${data.balance}`)
-  console.log(`upkeep: ${Array.from(data.ships.values()).reduce((prev, s)=> prev + s.upkeep, 0)}`)
+  console.log(`upkeep: ${Array.from(data.ships.values()).reduce((prev, s) => prev + s.upkeep, 0)}`)
   console.log(`ships:`)
   for (const ship of data.ships.values()) {
     let str = `  * [id: ${ship.id}, upkeep: ${ship.upkeep}]`
-    if(isQuestAssigned(ship)) {
+    if (isQuestAssigned(ship)) {
       str += ` !On Quest ${ship.questId}`
     }
     console.log(str)
@@ -122,6 +122,11 @@ function update(data: Data, cmd: UserCommand) {
         ([d, v]) => updateCheckDispatchReturn(d, v),
       )
 
+      while (data.quests.size < 3) {
+        const quest = giveId(getRandomQuest())
+        data.quests.set(quest.id, quest)
+      }
+
       for (const ship of data.ships.values()) {
         data.balance -= ship.upkeep
       }
@@ -181,3 +186,12 @@ async function main() {
 }
 
 void main()
+
+function getRandomQuest(): Quest {
+  const ret = getRandomElement(Quests)
+  if (ret._tag === "None") {
+    throw new Error("quest is none")
+  }
+
+  return ret.value
+}
