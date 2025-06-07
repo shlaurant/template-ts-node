@@ -1,7 +1,7 @@
 import { Identifiable } from "../id"
 import { Quest, QuestAssignment } from "../model/quest"
 import { Ship, ShipAssignment } from "../model/ship"
-import { updateOnQuestShips } from "./turn"
+import { updateOnQuestShips } from "./quest"
 
 test("updateDispatchStatus", () => {
   const turn = 2
