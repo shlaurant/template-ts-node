@@ -1,4 +1,5 @@
 import { Quest } from "../core/model/quest"
+import { getRandomElement } from "../../random/slice"
 
 export const Quests: Quest[] = [
   { length: 1, reward: 1 },
@@ -10,3 +11,12 @@ export const Quests: Quest[] = [
   { length: 2, reward: 4 },
   { length: 4, reward: 4 },
 ]
+
+export function getRandomQuest(): Quest {
+  const ret = getRandomElement(Quests)
+  if (ret._tag === "None") {
+    throw new Error("quest is none")
+  }
+
+  return ret.value
+}

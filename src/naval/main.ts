@@ -1,5 +1,5 @@
 import * as rl from "readline/promises"
-import { isQuestAssigned, Quest } from "./core/model/quest"
+import { isQuestAssigned } from "./core/model/quest"
 import * as f from "fp-ts/function"
 import * as array from "fp-ts/Array"
 import { getRandomElement } from "../random/slice"
@@ -7,8 +7,8 @@ import { giveId, id, Identifiable } from "./core/id"
 import { isShipAssigned, Ship } from "./core/model/ship"
 import { dispatchShips, DispatchShipsInput } from "./core/action/dispatch"
 import { checkDispatch } from "./core/system/turn"
-import { Data, updateDispatchShipsReturn, updateCheckDispatchReturn } from "./data"
-import { Quests } from "./data/quest"
+import { Data, updateCheckDispatchReturn, updateDispatchShipsReturn } from "./data"
+import { getRandomQuest, Quests } from "./data/quest"
 
 type UserCommandExit = {
   type: "exit"
@@ -187,12 +187,3 @@ async function main() {
 }
 
 void main()
-
-function getRandomQuest(): Quest {
-  const ret = getRandomElement(Quests)
-  if (ret._tag === "None") {
-    throw new Error("quest is none")
-  }
-
-  return ret.value
-}
