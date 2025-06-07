@@ -29,6 +29,22 @@ export function isQuestAssigned<T extends object>(obj: T): obj is T & QuestAssig
   return "questId" in obj
 }
 
+export type EnemyInformation<T extends object> = Readonly<{
+  possibleEnemies: ReadonlyArray<T>
+  minEnemies: number
+  maxEnemies: number
+}>
+
+export function addPossibleEnemies<T extends object>(
+  quest: Quest,
+  info: EnemyInformation<T>,
+): Quest & EnemyInformation<T> {
+  return {
+    ...quest,
+    ...info,
+  }
+}
+
 export const Quests: Quest[] = [
   { length: 1, reward: 1 },
   { length: 1, reward: 2 },
