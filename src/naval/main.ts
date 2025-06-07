@@ -1,5 +1,5 @@
 import * as rl from "readline/promises"
-import { isQuestAssigned, Quest, Quests } from "./core/model/quest"
+import { isQuestAssigned, Quest } from "./core/model/quest"
 import * as f from "fp-ts/function"
 import * as array from "fp-ts/Array"
 import { getRandomElement } from "../random/slice"
@@ -8,6 +8,7 @@ import { isShipAssigned, Ship } from "./core/model/ship"
 import { dispatchShips, DispatchShipsInput } from "./core/action/dispatch"
 import { checkDispatch } from "./core/system/turn"
 import { Data, updateDispatchShipsReturn, updateCheckDispatchReturn } from "./data"
+import { Quests } from "./data/quest"
 
 type UserCommandExit = {
   type: "exit"
