@@ -8,6 +8,7 @@ import { dispatchShips, DispatchShipsInput } from "./core/action/dispatch"
 import { checkDispatch } from "./core/system/turn"
 import { Data, updateCheckDispatchReturn, updateDispatchShipsReturn } from "./data"
 import { getRandomQuest } from "./data/quest"
+import { Combatants } from "./data/combatant"
 
 type UserCommandExit = {
   type: "exit"
@@ -160,7 +161,7 @@ async function main() {
     events: [],
   }
 
-  let ship = giveId({ upkeep: 1, combat: 1 })
+  let ship = giveId({ upkeep: 1, combat: 1, ...Combatants[0] })
   data.ships.set(ship.id, ship)
 
   data.quests = f.pipe(
