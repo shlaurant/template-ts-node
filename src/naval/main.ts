@@ -2,13 +2,12 @@ import * as rl from "readline/promises"
 import { isQuestAssigned } from "./core/model/quest"
 import * as f from "fp-ts/function"
 import * as array from "fp-ts/Array"
-import { getRandomElement } from "../random/slice"
 import { giveId, id, Identifiable } from "./core/id"
 import { isShipAssigned, Ship } from "./core/model/ship"
 import { dispatchShips, DispatchShipsInput } from "./core/action/dispatch"
 import { checkDispatch } from "./core/system/turn"
 import { Data, updateCheckDispatchReturn, updateDispatchShipsReturn } from "./data"
-import { getRandomQuest, Quests } from "./data/quest"
+import { getRandomQuest } from "./data/quest"
 
 type UserCommandExit = {
   type: "exit"
@@ -166,8 +165,7 @@ async function main() {
 
   data.quests = f.pipe(
     [0, 1, 2],
-    array.map(() => getRandomElement(Quests)),
-    array.compact,
+    array.map(() => getRandomQuest()),
     array.map((quest) => giveId(quest)),
     array.reduce(data.quests, (m, e) => m.set(e.id, e)),
   )
