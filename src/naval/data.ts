@@ -1,7 +1,7 @@
 import { Id, Identifiable } from "./core/id"
 import { Ship } from "./core/model/ship"
 import { QuestWithEnemyInformation } from "./core/model/quest"
-import { DispatchShipsReturn } from "./core/action/dispatch"
+import { DispatchShipsResult } from "./core/action/dispatch"
 import { UpdateDispatchResult } from "./core/system/turn"
 import { EventString, isWithEvent } from "./core/withEvent"
 import { Combatant } from "./core/model/combat"
@@ -17,7 +17,7 @@ export type Data = {
   events: EventString[]
 }
 
-export function updateDispatchShipsReturn(data: Data, value: DispatchShipsReturn): Data {
+export function updateDispatchShipsReturn(data: Data, value: DispatchShipsResult): Data {
   const quest = data.quests.get(value.quest.id)
   assert(quest !== undefined)
   data.quests.set(value.quest.id, { ...quest, ...value.quest })

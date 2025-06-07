@@ -9,12 +9,12 @@ export type DispatchShipsInput = {
   ships: ReadonlyArray<Identifiable<Ship>>
 }
 
-export type DispatchShipsReturn = {
+export type DispatchShipsResult = {
   quest: Identifiable<Quest & ShipAssignment>
   ships: ReadonlyArray<Identifiable<Ship & QuestAssignment>>
 }
 
-export function dispatchShips(input: DispatchShipsInput): WithEvent<DispatchShipsReturn> {
+export function dispatchShips(input: DispatchShipsInput): WithEvent<DispatchShipsResult> {
   return {
     quest: assignShips(input.turn, input.quest, input.ships),
     ships: input.ships.map((e) => assignQuest(e, input.quest)),
