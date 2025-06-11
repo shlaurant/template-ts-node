@@ -28,8 +28,6 @@ export type RoundData = Readonly<{
   right: ReadonlyArray<SalvoData>
 }>
 
-export type CombatResult = Readonly<{}>
-
 export function doBattle(
   left: ReadonlyArray<Identifiable<Combatant>>,
   right: ReadonlyArray<Identifiable<Combatant>>,
@@ -37,13 +35,25 @@ export function doBattle(
   const ret: RoundData[] = []
 
   while (left.some((e) => e.hull > 0) && right.some((e) => e.hull > 0)) {
+    const left_salvos: SalvoData[] = []
+    const right_salvos: SalvoData[] = []
+
     left = f.pipe(
       fireMultiple(right, left),
-      (salvos)=> {
-        salvos.forEach(e=>ret.push(e))
+      (salvos) => {
+        salvos.forEach((e) => right_salvos.push(e))
         return salvos
       },
       ra.reduce(left, (combatants, salvo) => damage(combatants, salvo.to, salvo.damage)),
+    )
+
+    right = f.pipe(
+      fireMultiple(left, right),
+      (salvos) => {
+        salvos.forEach((e) => left_salvos.push(e))
+        return salvos
+      },
+      ra.reduce(right, (combatants, salvo) => damage(combatants, salvo.to, salvo.damage)),
     )
   }
 
