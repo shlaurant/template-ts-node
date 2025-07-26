@@ -2,10 +2,13 @@
   "name": "games",
   "version": "0.0.0",
   "packageManager": "yarn@4.2.2",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "test": "jest",
     "lint": "eslint",
-    "ts-node": "ts-node",
+    "g:ts-node": "cd $INIT_CWD && ts-node",
     "start:naval": "ts-node src/naval/main.ts",
     "start:battle": "ts-node src/battle/main.ts"
   },

@@ -1,0 +1,11 @@
+{
+  "name": "acquire",
+  "version": "0.0.0",
+  "scripts": {
+    "start": "yarn g:ts-node src/main.ts"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+  }
+}

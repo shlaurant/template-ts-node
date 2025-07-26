@@ -1228,6 +1228,12 @@ __metadata:
   languageName: node
   linkType: hard
 
+"acquire@workspace:packages/acquire":
+  version: 0.0.0-use.local
+  resolution: "acquire@workspace:packages/acquire"
+  languageName: unknown
+  linkType: soft
+
 "agent-base@npm:^7.1.0, agent-base@npm:^7.1.2":
   version: 7.1.3
   resolution: "agent-base@npm:7.1.3"
